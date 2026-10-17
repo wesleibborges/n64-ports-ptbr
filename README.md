@@ -30,6 +30,9 @@ instalação no R36S) fica em repositório separado:
 
 ➡️ **[`wesleibborges/banjo-kazooie-ptbr`](https://github.com/wesleibborges/banjo-kazooie-ptbr)**
 
+Ferramenta online do projeto (verificação de ROM por SHA-1, no navegador):
+<https://wesleibborges.github.io/banjo-kazooie-ptbr/>
+
 Este repositório aqui é a **base de engenharia**: método, formatos, scripts e
 evidências reutilizáveis para outros ports/traduções.
 
