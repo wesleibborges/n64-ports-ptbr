@@ -14,12 +14,35 @@ para rodar em handhelds ARM — com foco em **traduções PT-BR**.
 
 | Caminho | Descrição |
 |---|---|
+| [`Banjo-Kazooie (BR)/lighthouse/`](Banjo-Kazooie%20(BR)/lighthouse/) | **Port Lighthouse completo** (binário aarch64, launcher, assets, libs, licenças) + language pack PT-BR |
+| [`docs/PORT_LIGHTHOUSE_R36S.md`](docs/PORT_LIGHTHOUSE_R36S.md) | Instalação no R36S, **ROMs compatíveis (SHA-1)**, regeneração do `bk.o2r`, controles e troubleshooting |
 | [`docs/GUIA_LANGPACK_O2R_LIGHTHOUSE.md`](docs/GUIA_LANGPACK_O2R_LIGHTHOUSE.md) | **Guia completo**: arquitetura do sistema de idiomas do Lighthouse, formatos binários, pipeline reproduzível, ferramentas e lições aprendidas |
 | [`LEIA-ME_TRADUCOES_PT-BR.md`](LEIA-ME_TRADUCOES_PT-BR.md) | Panorama dos ports por pasta: o que funciona, o que não funciona e por quê |
 | [`gerar_langpack_ptbr_lighthouse.py`](gerar_langpack_ptbr_lighthouse.py) | Gera o language pack PT-BR (`bk_pt-BR.o2r`) direto da ROM traduzida |
 | [`adaptar_ports_br.py`](adaptar_ports_br.py) | Converte ROM `.n64`→`.z64`, instala mods PT-BR e confere hashes |
 | [`identificar_roms.py`](identificar_roms.py) | Identifica ROMs N64 (game code, região, rev, SHA-1) |
 | [`evidencias/`](evidencias/) | Evidências RAW: formatos, contagens, amostras, investigação de bugs |
+
+---
+
+## 📦 Port incluído
+
+O port Lighthouse está versionado em `Banjo-Kazooie (BR)/lighthouse/` (binário
+aarch64 + assets do port + libs + language pack PT-BR).
+
+**ROMs compatíveis** (validação por SHA-1):
+
+| Região / Revisão | SHA-1 |
+|---|---|
+| US v1.0 (Rev 0) | `1fe1632098865f639e22c11b9a81ee8f29c75d7a` |
+| US v1.1 (Rev 1) | `ded6ee166e740ad1bc810fd678a84b48e245ab80` |
+| PAL | `bb359a75941df74bf7290212c89fbc6e2c5601fe` |
+| JP | `90726d7e7cd5bf6cdfd38f45c9acbf4d45bd9fd8` |
+
+> O `bk.o2r` (assets extraídos da ROM, ~24 MB) **não** é versionado — o próprio
+> port o regenera no primeiro boot a partir da sua ROM. Instruções completas em
+> [`docs/PORT_LIGHTHOUSE_R36S.md`](docs/PORT_LIGHTHOUSE_R36S.md).
+
 
 ---
 

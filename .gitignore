@@ -1,66 +1,41 @@
 # ============================================================
-#  Este repositorio publica APENAS documentacao, scripts e
-#  evidencias tecnicas. Nenhum asset protegido e versionado.
+#  Regras de exclusao deste repositorio.
+#  Objetivo: publicar o PORT + scripts + docs + language pack,
+#  mantendo fora ROMs e assets derivados da ROM base.
 # ============================================================
 
-# --- Ports e conteudo derivado de ROM (nao publicar) ---
-_downloads/
-zeldaocarina/
-zeldamajora/
-Banjo-Kazooie (BR)/
-Banjo-Recompiled (BR)/
-Body Harvest (Recomp)/
-ports/
-roms/
-saves/
-
-# --- ROMs ---
+# ===== ROMs (nunca versionar) =====
 *.z64
 *.n64
 *.v64
 *.ndd
 
-# --- Pacotes de assets extraidos de ROM ---
-*.o2r
-*.otr
-*.o2r.tmp
-mods/
-baseroms/
+# ===== Assets extraidos da ROM base (regeneraveis pelo proprio port) =====
+Banjo-Kazooie (BR)/lighthouse/bk.o2r
 
-# --- Mods/arquivos de terceiros ---
-*.nrm
-*.rtz
-*.zip
-*.tar
-*.tar.gz
-*.tgz
-*.7z
-*.rar
+# ===== Estado de execucao / preferencias do usuario =====
+Banjo-Kazooie (BR)/lighthouse/saves/
+Banjo-Kazooie (BR)/lighthouse/logs/
+Banjo-Kazooie (BR)/lighthouse/log.txt
+Banjo-Kazooie (BR)/lighthouse/imgui.ini
+Banjo-Kazooie (BR)/lighthouse/lighthouse.cfg.json
 
-# --- Binarios e build ---
-*.elf
-*.bin
-*.so
-*.so.*
-*.dll
-*.exe
-*.o
-*.a
-build/
-build-*/
+# ===== Outros projetos/pastas que nao pertencem a este repo =====
+Banjo-Recompiled (BR)/
+Body Harvest (Recomp)/
+zeldaocarina/
+zeldamajora/
+_downloads/
 
-# --- Logs, caches e temporarios ---
-*.log
-log.txt
-logs/
-*.tmp
-*.bak
+# ===== Temporarios / caches =====
 __pycache__/
 *.pyc
+*.tmp
+*.bak
 .DS_Store
 Thumbs.db
 
-# --- Credenciais ---
+# ===== Credenciais =====
 *.pem
 *.ppk
 *.key
