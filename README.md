@@ -15,7 +15,6 @@ para rodar em handhelds ARM — com foco em **traduções PT-BR**.
 | Caminho | Descrição |
 |---|---|
 | [`docs/GUIA_LANGPACK_O2R_LIGHTHOUSE.md`](docs/GUIA_LANGPACK_O2R_LIGHTHOUSE.md) | **Guia completo**: arquitetura do sistema de idiomas do Lighthouse, formatos binários, pipeline reproduzível, ferramentas e lições aprendidas |
-| [`docs/PORT_LIGHTHOUSE_R36S.md`](docs/PORT_LIGHTHOUSE_R36S.md) | Instalação do port no R36S, **ROMs compatíveis (SHA-1)**, regeneração do `bk.o2r`, controles e troubleshooting |
 | [`LEIA-ME_TRADUCOES_PT-BR.md`](LEIA-ME_TRADUCOES_PT-BR.md) | Panorama dos ports por pasta: o que funciona, o que não funciona e por quê |
 | [`gerar_langpack_ptbr_lighthouse.py`](gerar_langpack_ptbr_lighthouse.py) | Gera o language pack PT-BR (`bk_pt-BR.o2r`) direto da ROM traduzida |
 | [`adaptar_ports_br.py`](adaptar_ports_br.py) | Converte ROM `.n64`→`.z64`, instala mods PT-BR e confere hashes |
