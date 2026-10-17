@@ -1,0 +1,67 @@
+# ============================================================
+#  Este repositorio publica APENAS documentacao, scripts e
+#  evidencias tecnicas. Nenhum asset protegido e versionado.
+# ============================================================
+
+# --- Ports e conteudo derivado de ROM (nao publicar) ---
+_downloads/
+zeldaocarina/
+zeldamajora/
+Banjo-Kazooie (BR)/
+Banjo-Recompiled (BR)/
+Body Harvest (Recomp)/
+ports/
+roms/
+saves/
+
+# --- ROMs ---
+*.z64
+*.n64
+*.v64
+*.ndd
+
+# --- Pacotes de assets extraidos de ROM ---
+*.o2r
+*.otr
+*.o2r.tmp
+mods/
+baseroms/
+
+# --- Mods/arquivos de terceiros ---
+*.nrm
+*.rtz
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+
+# --- Binarios e build ---
+*.elf
+*.bin
+*.so
+*.so.*
+*.dll
+*.exe
+*.o
+*.a
+build/
+build-*/
+
+# --- Logs, caches e temporarios ---
+*.log
+log.txt
+logs/
+*.tmp
+*.bak
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# --- Credenciais ---
+*.pem
+*.ppk
+*.key
+.env
