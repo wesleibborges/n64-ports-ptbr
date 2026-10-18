@@ -10,7 +10,7 @@ binários de N64 em código C nativo. Os ports desta pasta usam esse ecossistema
 | `zeldaocarina/` | **Ship of Harkinian (SoH)** | Shipwright (OoT decomp) | ROM **original** aceita → gera `oot.o2r` |
 | `zeldamajora/` | **2Ship2Harkinian (2S2H)** | 2Ship (MM decomp) | ROM **original** N64-US ou GC-US → gera `mm.o2r` |
 | `Banjo-Kazooie (BR)/lighthouse/` | **Lighthouse** | Torch (HarbourMasters) | ROM **original** aceita → gera `bk.o2r` |
-| `Body Harvest (USA)/` | — (não existe port N64Recomp deste jogo) | — | Jogar via emulação N64 do dArkOS |
+| `Body Harvest (Recomp)/` | **Body Harvest (Recomp)** | decomp jaytheham + N64Recomp | ROM **US** (`.z64`) → gera `bh.us.elf` |
 
 ## 2. Por que as ROMs PT-BR não funcionam diretamente nos ports
 
@@ -120,10 +120,12 @@ Observações:
   `panvk` funcional no ArkOS).
 
 
-### 4.4 Body Harvest — sem port
-Não existe projeto N64Recomp para este jogo. Mantenha a ROM em
-`/roms/n64` para rodar via emulação (dArkOS). Caso exista interesse, a criação de um port
-exigiria um projeto de decompilação completo (fora do escopo de adaptação de ports).
+### 4.4 Body Harvest — port em andamento (decomp→recomp)
+Desde 16/10/2026 existe um pipeline **decomp→recomp** iniciado para este jogo (ver §5).
+A ROM pode continuar em `/roms/n64` para emulação direta (dArkOS) enquanto o port não fica
+jogável. O backend **OpenGL ES** para o R36S está em
+`Body Harvest (Recomp)/docs/PLANO_BACKEND_GLES_R36S.md`, com evidências RAW M1–M5 em
+`Body Harvest (Recomp)/evidencias/`.
 
 ## 5. Novos projetos criados (16/10/2026)
 

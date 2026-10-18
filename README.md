@@ -20,6 +20,7 @@ para rodar em handhelds ARM — com foco em **traduções PT-BR**.
 | [`adaptar_ports_br.py`](adaptar_ports_br.py) | Converte ROM `.n64`→`.z64`, instala mods PT-BR e confere hashes |
 | [`identificar_roms.py`](identificar_roms.py) | Identifica ROMs N64 (game code, região, rev, SHA-1) |
 | [`evidencias/`](evidencias/) | Evidências RAW: formatos, contagens, amostras, investigação de bugs |
+| [`Body Harvest (Recomp)/`](Body%20Harvest%20%28Recomp%29/) | **Em andamento**: backend OpenGL ES do port recompilado para o R36S — plano, evidências RAW (M1–M5) e ferramentas de probe. Só engenharia (sem ROM/binários) |
 
 ---
 
@@ -60,6 +61,31 @@ Instalação:
 ```
 
 No jogo: **Settings → General → Languages → Portuguese (BR)**.
+
+---
+
+## 🚧 Em andamento: Body Harvest (Recomp) — backend OpenGL ES (R36S)
+
+O recompilado do Body Harvest nasceu no RT64 (Vulkan) e não roda no Mali-G31 do
+R36S. O trabalho em curso troca o backend de renderização por **OpenGL ES 3.x**;
+plano, evidências RAW e ferramentas ficam em
+[`Body Harvest (Recomp)/`](Body%20Harvest%20%28Recomp%29/):
+
+- **Regra de orçamento de samplers medida no ESSL real de produção**
+  (não em shaders sintéticos): `n_arrays × N + n_escalares ≤
+  GL_MAX_TEXTURE_IMAGE_UNITS`. Com os 2 arrays + 1 escalar do shader real, o par
+  VS+PS linka até **N = 15** e falha em **N = 16** (referência: llvmpipe / ES 3.2).
+- **Bugs de conformidade ES 3.x** que só aparecem no **link do par VS+PS**
+  (invisíveis ao `glslangValidator`): `layout(index=1)` sem
+  `GL_EXT_blend_func_extended` e `flat in` divergente entre VS/PS — ambos já
+  corrigidos no sanitizador de produção.
+- **Pendente**: um único run no device (R36S) para medir o
+  `GL_MAX_TEXTURE_IMAGE_UNITS` real do Mali-G31 e fechar a estratégia de janela
+  dos arrays de textura.
+
+📄 [`docs/PLANO_BACKEND_GLES_R36S.md`](Body%20Harvest%20%28Recomp%29/docs/PLANO_BACKEND_GLES_R36S.md)
+· 🧾 [`evidence_m3_gles_device_probe_20261018.md`](Body%20Harvest%20%28Recomp%29/evidencias/evidence_m3_gles_device_probe_20261018.md)
+· 🔧 [`evidencias/tools/`](Body%20Harvest%20%28Recomp%29/evidencias/tools/)
 
 ---
 
