@@ -23,10 +23,26 @@ Banjo-Kazooie (BR)/lighthouse/lighthouse.cfg.json
 # ===== Outros projetos/pastas que nao pertencem a este repo =====
 Banjo-Kazooie (BR)/
 Banjo-Recompiled (BR)/
-Body Harvest (Recomp)/
 zeldaocarina/
 zeldamajora/
 _downloads/
+
+# ===== Body Harvest (Recomp) - publica SOMENTE engenharia (sem conteudo protegido) =====
+# Regra do projeto: nunca versionar ROMs, binarios de jogo, assets ou packs de idioma.
+Body Harvest (Recomp)/Body Harvest (USA)/
+Body Harvest (Recomp)/BodyHarvestRecompiled*
+Body Harvest (Recomp)/recomp/bh.us.elf
+Body Harvest (Recomp)/recomp/bh_recomp_out.tar.gz
+Body Harvest (Recomp)/assets/
+Body Harvest (Recomp)/libs/
+Body Harvest (Recomp)/glesprobe
+Body Harvest (Recomp)/vkprobe
+Body Harvest (Recomp)/diag_results/
+Body Harvest (Recomp)/*.log
+Body Harvest (Recomp)/log.txt
+Body Harvest (Recomp)/graphics.json.auto
+Body Harvest (Recomp)/graphics.json.gles
+Body Harvest (Recomp)/__pycache__/
 
 # ===== Temporarios / caches =====
 __pycache__/
@@ -41,3 +57,5 @@ Thumbs.db
 *.ppk
 *.key
 .env
+# ===== Configuracao local do Cline (nao versionar) =====
+.clinerules/
