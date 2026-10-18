@@ -1,0 +1,456 @@
+############ 1. plume: backends existentes ############
+total 832
+drwxr-xr-x  5 root root   4096 Oct 16 13:47 .
+drwxr-xr-x 22 root root   4096 Oct 16 13:40 ..
+drwxr-xr-x  3 root root   4096 Oct 16 13:47 .github
+-rw-r--r--  1 root root     73 Oct 16 13:47 .gitignore
+-rw-r--r--  1 root root    513 Oct 16 13:47 .gitmodules
+-rw-r--r--  1 root root   3610 Oct 16 13:47 CMakeLists.txt
+-rw-r--r--  1 root root   1083 Oct 16 13:47 LICENSE
+-rw-r--r--  1 root root    913 Oct 16 13:47 README.md
+drwxr-xr-x  7 root root   4096 Oct 16 13:47 contrib
+drwxr-xr-x  5 root root   4096 Oct 16 13:47 examples
+-rw-r--r--  1 root root   1126 Oct 16 13:47 plume_apple.h
+-rw-r--r--  1 root root   6646 Oct 16 13:47 plume_apple.mm
+-rw-r--r--  1 root root 202545 Oct 16 13:47 plume_d3d12.cpp
+-rw-r--r--  1 root root  25760 Oct 16 13:47 plume_d3d12.h
+-rw-r--r--  1 root root 188359 Oct 16 13:47 plume_metal.cpp
+-rw-r--r--  1 root root  34679 Oct 16 13:47 plume_metal.h
+-rw-r--r--  1 root root  16479 Oct 16 13:47 plume_render_interface.h
+-rw-r--r--  1 root root  12255 Oct 16 13:47 plume_render_interface_builders.h
+-rw-r--r--  1 root root  58755 Oct 16 13:47 plume_render_interface_types.h
+-rw-r--r--  1 root root 217807 Oct 16 13:47 plume_vulkan.cpp
+-rw-r--r--  1 root root  24056 Oct 16 13:47 plume_vulkan.h
+--- arquivos plume_*.* ---
+/root/bhrecomp/lib/rt64/src/contrib/plume/.gitignore
+/root/bhrecomp/lib/rt64/src/contrib/plume/.gitmodules
+/root/bhrecomp/lib/rt64/src/contrib/plume/CMakeLists.txt
+/root/bhrecomp/lib/rt64/src/contrib/plume/LICENSE
+/root/bhrecomp/lib/rt64/src/contrib/plume/README.md
+/root/bhrecomp/lib/rt64/src/contrib/plume/plume_apple.h
+/root/bhrecomp/lib/rt64/src/contrib/plume/plume_apple.mm
+/root/bhrecomp/lib/rt64/src/contrib/plume/plume_d3d12.cpp
+/root/bhrecomp/lib/rt64/src/contrib/plume/plume_d3d12.h
+/root/bhrecomp/lib/rt64/src/contrib/plume/plume_metal.cpp
+/root/bhrecomp/lib/rt64/src/contrib/plume/plume_metal.h
+/root/bhrecomp/lib/rt64/src/contrib/plume/plume_render_interface.h
+/root/bhrecomp/lib/rt64/src/contrib/plume/plume_render_interface_builders.h
+/root/bhrecomp/lib/rt64/src/contrib/plume/plume_render_interface_types.h
+/root/bhrecomp/lib/rt64/src/contrib/plume/plume_vulkan.cpp
+/root/bhrecomp/lib/rt64/src/contrib/plume/plume_vulkan.h
+
+############ 2. spirv-cross: opcoes relevantes (help completo) ############
+(Debian package)
+Usage: spirv-cross <...>
+
+Basic:
+	[SPIR-V file] (- is stdin)
+	[--output <output path>]: If not provided, prints output to stdout.
+	[--dump-resources]:
+		Prints a basic reflection of the SPIR-V module along with other output.
+	[--help]:
+		Prints this help message.
+
+Select backend:
+	By default, OpenGL-style GLSL is the target, with #version and GLSL/ESSL information inherited from the SPIR-V module if present.
+	[--vulkan-semantics] or [-V]:
+		Emit Vulkan GLSL instead of plain GLSL. Makes use of Vulkan-only features to match SPIR-V.
+	[--msl]:
+		Emit Metal Shading Language (MSL).
+	[--hlsl]:
+		Emit HLSL.
+	[--reflect]:
+		Emit JSON reflection.
+	[--cpp]:
+		DEPRECATED. Emits C++ code.
+
+Common options:
+	[--entry name]:
+		Use a specific entry point. By default, the first entry point in the module is used.
+	[--stage <stage (vert, frag, geom, tesc, tese comp)>]:
+		Forces use of a certain shader stage.
+		Can disambiguate the entry point if more than one entry point exists with same name, but different stage.
+	[--emit-line-directives]:
+		If SPIR-V has OpLine directives, aim to emit those accurately in output code as well.
+	[--rename-entry-point <old> <new> <stage>]:
+		Renames an entry point from what is declared in SPIR-V to code output.
+		Mostly relevant for HLSL or MSL.
+	[--rename-interface-variable <in|out> <location> <new_variable_name>]:
+		Rename an interface variable based on location decoration.
+	[--force-zero-initialized-variables]:
+		Forces temporary variables to be initialized to zero.
+		Can be useful in environments where compilers do not allow potentially uninitialized variables.
+		This usually comes up with Phi temporaries.
+	[--fixup-clipspace]:
+		Fixup Z clip-space at the end of a vertex shader. The behavior is backend-dependent.
+		GLSL: Rewrites [0, w] Z range (D3D/Metal/Vulkan) to GL-style [-w, w].
+		HLSL/MSL: Rewrites [-w, w] Z range (GL) to D3D/Metal/Vulkan-style [0, w].
+	[--flip-vert-y]:
+		Inverts gl_Position.y (or equivalent) at the end of a vertex shader. This is equivalent to using negative viewport height.
+
+GLSL options:
+	[--es]:
+		Force ESSL.
+	[--no-es]:
+		Force desktop GLSL.
+	[--version <GLSL version>]:
+		E.g. --version 450 will emit '#version 450' in shader.
+		Code generation will depend on the version used.
+	[--flatten-ubo]:
+		Emit UBOs as plain uniform arrays which are suitable for use with glUniform4*v().
+		This can be an optimization on GL implementations where this is faster or works around buggy driver implementations.
+		E.g.: uniform MyUBO { vec4 a; float b, c, d, e; }; will be emitted as uniform vec4 MyUBO[2];
+		Caveat: You cannot mix and match floating-point and integer in the same UBO with this option.
+		Legacy GLSL/ESSL (where this flattening makes sense) does not support bit-casting, which would have been the obvious workaround.
+	[--extension ext]:
+		Add #extension string of your choosing to GLSL output.
+		Useful if you use variable name remapping to something that requires an extension unknown to SPIRV-Cross.
+	[--remove-unused-variables]:
+		Do not emit interface variables which are not statically accessed by the shader.
+	[--separate-shader-objects]:
+		Redeclare gl_PerVertex blocks to be suitable for desktop GL separate shader objects.
+	[--glsl-emit-push-constant-as-ubo]:
+		Instead of a plain uniform of struct for push constants, emit a UBO block instead.
+	[--glsl-emit-ubo-as-plain-uniforms]:
+		Instead of emitting UBOs, emit them as plain uniform structs.
+	[--glsl-remap-ext-framebuffer-fetch input-attachment color-location]:
+		Remaps an input attachment to use GL_EXT_shader_framebuffer_fetch.
+		gl_LastFragData[location] is read from. The attachment to read from must be declared as an output in the shader.
+	[--vulkan-glsl-disable-ext-samplerless-texture-functions]:
+		Do not allow use of GL_EXT_samperless_texture_functions, even in Vulkan GLSL.
+		Use of texelFetch and similar might have to create dummy samplers to work around it.
+	[--combined-samplers-inherit-bindings]:
+		Inherit binding information from the textures when building combined image samplers from separate textures and samplers.
+	[--no-support-nonzero-baseinstance]:
+		When using gl_InstanceIndex with desktop GL,
+		assume that base instance is always 0, and do not attempt to fix up gl_InstanceID to match Vulkan semantics.
+	[--pls-in format input-name]:
+		Remaps a subpass input with name into a GL_EXT_pixel_local_storage input.
+		Entry in PLS block is ordered where first --pls-in marks the first entry. Can be called multiple times.
+		Formats allowed: r11f_g11f_b10f, r32f, rg16f, rg16, rgb10_a2, rgba8, rgba8i, rgba8ui, rg16i, rgb10_a2ui, rg16ui, r32ui.
+		Requires ESSL.
+	[--pls-out format output-name]:
+		Remaps a color output with name into a GL_EXT_pixel_local_storage output.
+		Entry in PLS block is ordered where first --pls-output marks the first entry. Can be called multiple times.
+		Formats allowed: r11f_g11f_b10f, r32f, rg16f, rg16, rgb10_a2, rgba8, rgba8i, rgba8ui, rg16i, rgb10_a2ui, rg16ui, r32ui.
+		Requires ESSL.
+	[--remap source_name target_name components]:
+		Remaps a variable to a different name with N components.
+		Main use case is to remap a subpass input to gl_LastFragDepthARM.
+		E.g.:
+		uniform subpassInput uDepth;
+		--remap uDepth gl_LastFragDepthARM 1 --extension GL_ARM_shader_framebuffer_fetch_depth_stencil
+	[--no-420pack-extension]:
+		Do not make use of GL_ARB_shading_language_420pack in older GL targets to support layout(binding).
+	[--remap-variable-type <variable_name> <new_variable_type>]:
+		Remaps a variable type based on name.
+		Primary use case is supporting external samplers in ESSL for video rendering on Android where you could remap a texture to a YUV one.
+	[--glsl-force-flattened-io-blocks]:
+		Always flatten I/O blocks and structs.
+
+MSL options:
+	[--msl-version <MMmmpp>]:
+		Uses a specific MSL version, e.g. --msl-version 20100 for MSL 2.1.
+	[--msl-capture-output]:
+		Writes geometry varyings to a buffer instead of as stage-outputs.
+	[--msl-swizzle-texture-samples]:
+		Works around lack of support for VkImageView component swizzles.
+		This has a massive impact on performance and bloat. Do not use this unless you are absolutely forced to.
+		To use this feature, the API side must pass down swizzle buffers.
+		Should only be used by translation layers as a last resort.
+		Recent Metal versions do not require this workaround.
+	[--msl-ios]:
+		Target iOS Metal instead of macOS Metal.
+	[--msl-pad-fragment-output]:
+		Always emit color outputs as 4-component variables.
+		In Metal, the fragment shader must emit at least as many components as the render target format.
+	[--msl-domain-lower-left]:
+		Use a lower-left tessellation domain.
+	[--msl-argument-buffers]:
+		Emit Indirect Argument buffers instead of plain bindings.
+		Requires MSL 2.0 to be enabled.
+	[--msl-texture-buffer-native]:
+		Enable native support for texel buffers. Otherwise, it is emulated as a normal texture.
+	[--msl-framebuffer-fetch]:
+		Implement subpass inputs with frame buffer fetch.
+		Emits [[color(N)]] inputs in fragment stage.
+		Requires an Apple GPU.
+	[--msl-emulate-cube-array]:
+		Emulate cube arrays with 2D array and manual math.
+	[--msl-discrete-descriptor-set <index>]:
+		When using argument buffers, forces a specific descriptor set to be implemented without argument buffers.
+		Useful for implementing push descriptors in emulation layers.
+
+############ 3. REFLECTION dos shaders que falham ############
+=== RasterVSSpecConstant  (spv=/root/bhrecomp/build-aarch64/src/shaders/RasterVSSpecConstant.hlsl.spv) ===
+Didn't specify input file.
+(Debian package)
+Usage: spirv-cross <...>
+
+Basic:
+	[SPIR-V file] (- is stdin)
+	[--output <output path>]: If not provided, prints output to stdout.
+	[--dump-resources]:
+		Prints a basic reflection of the SPIR-V module along with other output.
+	[--help]:
+		Prints this help message.
+
+Select backend:
+	By default, OpenGL-style GLSL is the target, with #version and GLSL/ESSL information inherited from the SPIR-V module if present.
+	[--vulkan-semantics] or [-V]:
+		Emit Vulkan GLSL instead of plain GLSL. Makes use of Vulkan-only features to match SPIR-V.
+	[--msl]:
+		Emit Metal Shading Language (MSL).
+	[--hlsl]:
+		Emit HLSL.
+	[--reflect]:
+		Emit JSON reflection.
+	[--cpp]:
+		DEPRECATED. Emits C++ code.
+
+Common options:
+	[--entry name]:
+		Use a specific entry point. By default, the first entry point in the module is used.
+	[--stage <stage (vert, frag, geom, tesc, tese comp)>]:
+		Forces use of a certain shader stage.
+		Can disambiguate the entry point if more than one entry point exists with same name, but different stage.
+	[--emit-line-directives]:
+		If SPIR-V has OpLine directives, aim to emit those accurately in output code as well.
+	[--rename-entry-point <old> <new> <stage>]:
+		Renames an entry point from what is declared in SPIR-V to code output.
+		Mostly relevant for HLSL or MSL.
+	[--rename-interface-variable <in|out> <location> <new_variable_name>]:
+		Rename an interface variable based on location decoration.
+	[--force-zero-initialized-variables]:
+		Forces temporary variables to be initialized to zero.
+		Can be useful in environments where compilers do not allow potentially uninitialized variables.
+		This usually comes up with Phi temporaries.
+	[--fixup-clipspace]:
+		Fixup Z clip-space at the end of a vertex shader. The behavior is backend-dependent.
+		GLSL: Rewrites [0, w] Z range (D3D/Metal/Vulkan) to GL-style [-w, w].
+		HLSL/MSL: Rewrites [-w, w] Z range (GL) to D3D/Metal/Vulkan-style [0, w].
+	[--flip-vert-y]:
+		Inverts gl_Position.y (or equivalent) at the end of a vertex shader. This is equivalent to using negative viewport height.
+
+GLSL options:
+	[--es]:
+		Force ESSL.
+	[--no-es]:
+		Force desktop GLSL.
+	[--version <GLSL version>]:
+		E.g. --version 450 will emit '#version 450' in shader.
+		Code generation will depend on the version used.
+	[--flatten-ubo]:
+		Emit UBOs as plain uniform arrays which are suitable for use with glUniform4*v().
+		This can be an optimization on GL implementations where this is faster or works around buggy driver implementations.
+		E.g.: uniform MyUBO { vec4 a; float b, c, d, e; }; will be emitted as uniform vec4 MyUBO[2];
+		Caveat: You cannot mix and match floating-point and integer in the same UBO with this option.
+		Legacy GLSL/ESSL (where this flattening makes sense) does not support bit-casting, which would have been the obvious workaround.
+	[--extension ext]:
+		Add #extension string of your choosing to GLSL output.
+		Useful if you use variable name remapping to something that requires an extension unknown to SPIRV-Cross.
+	[--remove-unused-variables]:
+		Do not emit interface variables which are not statically accessed by the shader.
+	[--separate-shader-objects]:
+		Redeclare gl_PerVertex blocks to be suitable for desktop GL separate shader objects.
+
+=== RSPProcessCS  (spv=/root/bhrecomp/build-aarch64/src/shaders/RSPProcessCS.hlsl.spv) ===
+Didn't specify input file.
+(Debian package)
+Usage: spirv-cross <...>
+
+Basic:
+	[SPIR-V file] (- is stdin)
+	[--output <output path>]: If not provided, prints output to stdout.
+	[--dump-resources]:
+		Prints a basic reflection of the SPIR-V module along with other output.
+	[--help]:
+		Prints this help message.
+
+Select backend:
+	By default, OpenGL-style GLSL is the target, with #version and GLSL/ESSL information inherited from the SPIR-V module if present.
+	[--vulkan-semantics] or [-V]:
+		Emit Vulkan GLSL instead of plain GLSL. Makes use of Vulkan-only features to match SPIR-V.
+	[--msl]:
+		Emit Metal Shading Language (MSL).
+	[--hlsl]:
+		Emit HLSL.
+	[--reflect]:
+		Emit JSON reflection.
+	[--cpp]:
+		DEPRECATED. Emits C++ code.
+
+Common options:
+	[--entry name]:
+		Use a specific entry point. By default, the first entry point in the module is used.
+	[--stage <stage (vert, frag, geom, tesc, tese comp)>]:
+		Forces use of a certain shader stage.
+		Can disambiguate the entry point if more than one entry point exists with same name, but different stage.
+	[--emit-line-directives]:
+		If SPIR-V has OpLine directives, aim to emit those accurately in output code as well.
+	[--rename-entry-point <old> <new> <stage>]:
+		Renames an entry point from what is declared in SPIR-V to code output.
+		Mostly relevant for HLSL or MSL.
+	[--rename-interface-variable <in|out> <location> <new_variable_name>]:
+		Rename an interface variable based on location decoration.
+	[--force-zero-initialized-variables]:
+		Forces temporary variables to be initialized to zero.
+		Can be useful in environments where compilers do not allow potentially uninitialized variables.
+		This usually comes up with Phi temporaries.
+	[--fixup-clipspace]:
+		Fixup Z clip-space at the end of a vertex shader. The behavior is backend-dependent.
+		GLSL: Rewrites [0, w] Z range (D3D/Metal/Vulkan) to GL-style [-w, w].
+		HLSL/MSL: Rewrites [-w, w] Z range (GL) to D3D/Metal/Vulkan-style [0, w].
+	[--flip-vert-y]:
+		Inverts gl_Position.y (or equivalent) at the end of a vertex shader. This is equivalent to using negative viewport height.
+
+GLSL options:
+	[--es]:
+		Force ESSL.
+	[--no-es]:
+		Force desktop GLSL.
+	[--version <GLSL version>]:
+		E.g. --version 450 will emit '#version 450' in shader.
+		Code generation will depend on the version used.
+	[--flatten-ubo]:
+		Emit UBOs as plain uniform arrays which are suitable for use with glUniform4*v().
+		This can be an optimization on GL implementations where this is faster or works around buggy driver implementations.
+		E.g.: uniform MyUBO { vec4 a; float b, c, d, e; }; will be emitted as uniform vec4 MyUBO[2];
+		Caveat: You cannot mix and match floating-point and integer in the same UBO with this option.
+		Legacy GLSL/ESSL (where this flattening makes sense) does not support bit-casting, which would have been the obvious workaround.
+	[--extension ext]:
+		Add #extension string of your choosing to GLSL output.
+		Useful if you use variable name remapping to something that requires an extension unknown to SPIRV-Cross.
+	[--remove-unused-variables]:
+		Do not emit interface variables which are not statically accessed by the shader.
+	[--separate-shader-objects]:
+		Redeclare gl_PerVertex blocks to be suitable for desktop GL separate shader objects.
+
+=== RasterPSDynamic  (spv=/root/bhrecomp/build-aarch64/src/shaders/RasterPSDynamic.hlsl.spv) ===
+Didn't specify input file.
+(Debian package)
+Usage: spirv-cross <...>
+
+Basic:
+	[SPIR-V file] (- is stdin)
+	[--output <output path>]: If not provided, prints output to stdout.
+	[--dump-resources]:
+		Prints a basic reflection of the SPIR-V module along with other output.
+	[--help]:
+		Prints this help message.
+
+Select backend:
+	By default, OpenGL-style GLSL is the target, with #version and GLSL/ESSL information inherited from the SPIR-V module if present.
+	[--vulkan-semantics] or [-V]:
+		Emit Vulkan GLSL instead of plain GLSL. Makes use of Vulkan-only features to match SPIR-V.
+	[--msl]:
+		Emit Metal Shading Language (MSL).
+	[--hlsl]:
+		Emit HLSL.
+	[--reflect]:
+		Emit JSON reflection.
+	[--cpp]:
+		DEPRECATED. Emits C++ code.
+
+Common options:
+	[--entry name]:
+		Use a specific entry point. By default, the first entry point in the module is used.
+	[--stage <stage (vert, frag, geom, tesc, tese comp)>]:
+		Forces use of a certain shader stage.
+		Can disambiguate the entry point if more than one entry point exists with same name, but different stage.
+	[--emit-line-directives]:
+		If SPIR-V has OpLine directives, aim to emit those accurately in output code as well.
+	[--rename-entry-point <old> <new> <stage>]:
+		Renames an entry point from what is declared in SPIR-V to code output.
+		Mostly relevant for HLSL or MSL.
+	[--rename-interface-variable <in|out> <location> <new_variable_name>]:
+		Rename an interface variable based on location decoration.
+	[--force-zero-initialized-variables]:
+		Forces temporary variables to be initialized to zero.
+		Can be useful in environments where compilers do not allow potentially uninitialized variables.
+		This usually comes up with Phi temporaries.
+	[--fixup-clipspace]:
+		Fixup Z clip-space at the end of a vertex shader. The behavior is backend-dependent.
+		GLSL: Rewrites [0, w] Z range (D3D/Metal/Vulkan) to GL-style [-w, w].
+		HLSL/MSL: Rewrites [-w, w] Z range (GL) to D3D/Metal/Vulkan-style [0, w].
+	[--flip-vert-y]:
+		Inverts gl_Position.y (or equivalent) at the end of a vertex shader. This is equivalent to using negative viewport height.
+
+GLSL options:
+	[--es]:
+		Force ESSL.
+	[--no-es]:
+		Force desktop GLSL.
+	[--version <GLSL version>]:
+		E.g. --version 450 will emit '#version 450' in shader.
+		Code generation will depend on the version used.
+	[--flatten-ubo]:
+		Emit UBOs as plain uniform arrays which are suitable for use with glUniform4*v().
+		This can be an optimization on GL implementations where this is faster or works around buggy driver implementations.
+		E.g.: uniform MyUBO { vec4 a; float b, c, d, e; }; will be emitted as uniform vec4 MyUBO[2];
+		Caveat: You cannot mix and match floating-point and integer in the same UBO with this option.
+		Legacy GLSL/ESSL (where this flattening makes sense) does not support bit-casting, which would have been the obvious workaround.
+	[--extension ext]:
+		Add #extension string of your choosing to GLSL output.
+		Useful if you use variable name remapping to something that requires an extension unknown to SPIRV-Cross.
+	[--remove-unused-variables]:
+		Do not emit interface variables which are not statically accessed by the shader.
+	[--separate-shader-objects]:
+		Redeclare gl_PerVertex blocks to be suitable for desktop GL separate shader objects.
+
+
+############ 4. teste de flags alternativas em RasterVSSpecConstant ############
+--- 4a. --version 320 desktop (sem --es) ---
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+rc=0
+--- 4b. --version 310 --es ---
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+rc=0
+--- 4c. --version 320 --es --flatten-ubo ---
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+rc=0
+--- 4d. --version 320 --es --force-flattened-io (se existir) ---
+(Debian package)
+Usage: spirv-cross <...>
+
+rc=0
+
+############ 5. DebugPS: linha 54 do GLSL emitido ############
+    uint interleavedRastersCount;
+    int visualizationMode;
+} RtParams;
+
+layout(binding = 46, rgba32f) uniform readonly highp image2D gShadingPosition;
+layout(binding = 47, rgba32f) uniform readonly highp image2D gShadingNormal;
+layout(binding = 48, rgba32f) uniform readonly highp image2D gShadingSpecular;
+layout(binding = 49, rgba32f) uniform readonly highp image2D gDiffuse;
+layout(binding = 50, r32i) uniform readonly highp iimage2D gInstanceId;
+layout(binding = 51, rgba32f) uniform readonly highp image2D gDirectLightAccum;
+layout(binding = 52, rgba32f) uniform readonly highp image2D gIndirectLightAccum;
+layout(binding = 53, rgba32f) uniform readonly highp image2D gReflection;
+layout(binding = 54, rgba32f) uniform readonly highp image2D gRefraction;
+layout(binding = 55, rgba32f) uniform readonly highp image2D gTransparent;
+layout(binding = 56, rg32f) uniform readonly highp image2D gFlow;
+layout(binding = 57, r32f) uniform readonly highp image2D gReactiveMask;
+layout(binding = 58, r32f) uniform readonly highp image2D gLockMask;
+layout(binding = 60, r32f) uniform readonly highp image2D gDepth;
+layout(binding = 65, rgba32f) uniform readonly highp image2D gFilteredDirectLight;
+layout(binding = 66, rgba32f) uniform readonly highp image2D gFilteredIndirectLight;
+
+
+############ 6. Im3DVS: linha 46 ############
+} RtParams;
+
+layout(location = 0) in vec4 in_var_POSITION_SIZE;
+layout(location = 1) in vec4 in_var_COLOR;
+layout(location = 0) out vec3 out_var_POSITION;
+layout(location = 1) out vec4 out_var_COLOR;
+layout(location = 2) noperspective out float out_var_SIZE;
+
+mat4 spvWorkaroundRowMajor(mat4 wrap) { return wrap; }
+
+void main()
+
+############ 7. dxc-linux help: flags gl-layout ############
+--- rc do help ---
+rc=127

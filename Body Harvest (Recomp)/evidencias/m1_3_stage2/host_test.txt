@@ -1,0 +1,18 @@
+M1.3 estagio 2 -- aceite host-side do caminho de runtime do canal GLES
+spec constants: omL=0x00504A50 omH=0x00000080 ccL=0xFC127E24 ccH=0xFFFFF3F9 flags=0x00000005
+
+SHADER                     STAGE    SPV_IN   SPV_OPT      ESSL  RESPV_MS   XC_MS OK   NOTE
+RasterVSSpecConstant       vert       4676      2320      1124      0.03     0.6 ok   
+RasterVSSpecConstantFlat   vert       4748      2368      1171      0.01     0.3 ok   
+RasterPSSpecConstant       frag     284228     11120      8777      1.38     3.9 ok   
+RasterPSSpecConstantMS     frag     285160     11172      8777      1.05     2.6 ok   
+RasterPSSpecConstantFlat   frag     284376     11244      8814      0.96     2.1 ok   
+RasterPSSpecConstantFlatMS frag     285308     11296      8814      1.10     2.0 ok   
+RasterVSDynamic            vert       5220      5220      2964      0.00     0.9 ok   
+RasterPSDynamic            frag     113652    113652    260915      0.00    48.5 ok   
+RasterPSDynamicMS          frag     114584    114584    262267      0.00    37.3 ok   
+FullScreenVS               vert        860       860       373      0.00     0.2 ok   
+TextureCopyPS              frag       1212      1212       623      0.00     0.2 ok   
+PostBlendDitherNoiseAddPS  frag       7676      7676      4807      0.00     1.8 ok   
+
+shaders=12 ok=12 fail=0 essl_total=569426 B respv_total=4.5 ms cross_total=100.4 ms

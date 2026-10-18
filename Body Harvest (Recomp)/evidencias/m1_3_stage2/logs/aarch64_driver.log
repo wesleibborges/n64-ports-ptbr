@@ -1,0 +1,11 @@
+=== reconfigure 2026-10-18T14:07:04-03:00 ===
+reconfigure rc=0
+=== build 2026-10-18T14:07:06-03:00 ===
+ninja rc=0
+=== link final ===
+-rwxr-xr-x 1 root root 22860752 Oct 18 14:18 /root/bhrecomp/build-aarch64/BodyHarvestRecompiled
+=== simbolos GLSLES ===
+108
+=== simbolos spirv-cross no binario ===
+228
+=== fim 2026-10-18T14:18:38-03:00 ===

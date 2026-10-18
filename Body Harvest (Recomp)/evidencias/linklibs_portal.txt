@@ -1,0 +1,4 @@
+/root/sysroot64/usr/lib/aarch64-linux-gnu/libfreetype.so
+/root/sysroot64/usr/lib/aarch64-linux-gnu/libSDL2.so
+/root/sysroot64/usr/lib/aarch64-linux-gnu/libfreetype.so
+/root/sysroot64/usr/lib/aarch64-linux-gnu/libdbus-1.so

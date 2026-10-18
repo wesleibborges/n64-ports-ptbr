@@ -1,0 +1,108 @@
+=== INVENTARIO /root/bhrecomp/m1_glsles ===
+vert.glsl    = 3
+frag.glsl    = 25
+comp.glsl    = 20
+xc.log       = 58
+glslang.log  = 48
+spv          = 0
+
+=== fail_xc.txt (spirv-cross) ===
+RSPProcessCS.hlsl.spv
+RasterPSDynamic.hlsl.spv
+RasterPSDynamicMS.hlsl.spv
+RasterPSSpecConstant.hlsl.spv
+RasterPSSpecConstantFlat.hlsl.spv
+RasterPSSpecConstantFlatMS.hlsl.spv
+RasterPSSpecConstantMS.hlsl.spv
+RasterVSDynamic.hlsl.spv
+RasterVSSpecConstant.hlsl.spv
+RasterVSSpecConstantFlat.hlsl.spv
+
+=== fail_glsl.txt (glslangValidator) ===
+DebugPS.hlsl.spv
+FbReinterpretCS.hlsl.spv
+Im3DVS.hlsl.spv
+RSPSmoothNormalCS.hlsl.spv
+TextureDecodeCS.hlsl.spv
+
+=== LOGS COMPLETOS: falhas spirv-cross ===
+### RSPProcessCS.hlsl.spv
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+
+### RasterPSDynamic.hlsl.spv
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+
+### RasterPSDynamicMS.hlsl.spv
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+
+### RasterPSSpecConstant.hlsl.spv
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+
+### RasterPSSpecConstantFlat.hlsl.spv
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+
+### RasterPSSpecConstantFlatMS.hlsl.spv
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+
+### RasterPSSpecConstantMS.hlsl.spv
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+
+### RasterVSDynamic.hlsl.spv
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+
+### RasterVSSpecConstant.hlsl.spv
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+
+### RasterVSSpecConstantFlat.hlsl.spv
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+
+
+=== LOGS COMPLETOS: falhas glslang ===
+### DebugPS.hlsl.spv
+/root/bhrecomp/m1_glsles/DebugPS.hlsl.spv.frag.glsl
+ERROR: 0:54: 'image load-store format' : not supported with this profile: es
+ERROR: 0:54: '' : compilation terminated 
+ERROR: 2 compilation errors.  No code generated.
+
+
+
+### FbReinterpretCS.hlsl.spv
+/root/bhrecomp/m1_glsles/FbReinterpretCS.hlsl.spv.comp.glsl
+ERROR: 0:26: 'usampler1D' : Reserved word. 
+ERROR: 0:26: '' : compilation terminated 
+ERROR: 2 compilation errors.  No code generated.
+
+
+
+### Im3DVS.hlsl.spv
+/root/bhrecomp/m1_glsles/Im3DVS.hlsl.spv.vert.glsl
+ERROR: 0:46: 'noperspective' : Reserved word. 
+ERROR: 0:46: 'noperspective' : not supported for this version or the enabled extensions 
+ERROR: 0:46: '' : compilation terminated 
+ERROR: 3 compilation errors.  No code generated.
+
+
+
+### RSPSmoothNormalCS.hlsl.spv
+/root/bhrecomp/m1_glsles/RSPSmoothNormalCS.hlsl.spv.frag.glsl
+ERROR: 0:2: 'local_size_x' : there is no such layout identifier for this stage taking an assigned value 
+ERROR: 0:2: '' : compilation terminated 
+ERROR: 2 compilation errors.  No code generated.
+
+
+
+### TextureDecodeCS.hlsl.spv
+/root/bhrecomp/m1_glsles/TextureDecodeCS.hlsl.spv.comp.glsl
+ERROR: 0:18: 'usampler1D' : Reserved word. 
+ERROR: 0:18: '' : compilation terminated 
+ERROR: 2 compilation errors.  No code generated.
+
+
+
+
+=== DXC vendorizado: binarios e opcao gl-layout ===
+-rwxr-xr-x 1 root root 771496 Oct 16 13:46 /root/bhrecomp/lib/rt64/src/contrib/dxc/bin/x64/dxc-linux
+
+=== comportamento quando /root/bhrecomp/m1_glsles ja existe (por que ls variou) ===
+-rw-r--r--  1 root root  4550 Oct 17 17:07 m1_diag.txt
+drwxr-xr-x  2 root root 12288 Oct 17 17:05 m1_glsles

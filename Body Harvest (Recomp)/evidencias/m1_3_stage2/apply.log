@@ -1,0 +1,58 @@
+=== md5 ANTES (targets do port) ===
+9dfb65cd9bd76bad806daaaf3f56db1b  /root/bhrecomp/lib/rt64/CMakeLists.txt
+3ca7b5b953c4b3a21d090409ed97ff2a  /root/bhrecomp/lib/rt64/src/render/rt64_shader_library.cpp
+fa672a7e9e8694579014c86c44d4e38a  /root/bhrecomp/lib/rt64/src/render/rt64_raster_shader.cpp
+aba39baa6fe1385218765ea81a2d3412  /root/bhrecomp/lib/rt64/src/render/rt64_raster_shader.h
+a6c812831a918f68f089977d1994c81b  /root/bhrecomp/lib/rt64/src/render/rt64_raster_shader_cache.cpp
+
+=== aplicando patch ===
+== md5 ANTES ==
+  9dfb65cd9bd76bad806daaaf3f56db1b  CMakeLists.txt
+  3ca7b5b953c4b3a21d090409ed97ff2a  src/render/rt64_shader_library.cpp
+  fa672a7e9e8694579014c86c44d4e38a  src/render/rt64_raster_shader.cpp
+  aba39baa6fe1385218765ea81a2d3412  src/render/rt64_raster_shader.h
+  a6c812831a918f68f089977d1994c81b  src/render/rt64_raster_shader_cache.cpp
+  (ausente)  src/render/rt64_glsl_es.h
+  (ausente)  src/render/rt64_glsl_es.cpp
+  (ausente)  src/render/rt64_glsl_es_device.h
+== backup em /root/bhrecomp/m1_3_gles/stage2/backup ==
+CMakeLists.txt: 3 edicoes
+rt64_shader_library.cpp: 3 edicoes
+rt64_raster_shader.cpp: 5 edicoes (parte 1)
+rt64_raster_shader.cpp: 7 edicoes
+rt64_raster_shader.h: 1 edicao
+rt64_raster_shader_cache.cpp: 1 edicao
+
+== md5 DEPOIS ==
+  aab8b85f9eb8d9a9ad3133ca26c65087  CMakeLists.txt
+  96c20c248ba1d7a3532bd5206ee23700  src/render/rt64_shader_library.cpp
+  1306d9fd2d1631558bd25d895b899d50  src/render/rt64_raster_shader.cpp
+  68bc02533ef33fd2d4a70904749f33ae  src/render/rt64_raster_shader.h
+  949a39bdc0ec5f84f56f3b86d1f2df35  src/render/rt64_raster_shader_cache.cpp
+  58eb4b478dfd948f49ad376c0a481b49  src/render/rt64_glsl_es.h
+  d2128832b770d8ab3f9fd8ec627cf864  src/render/rt64_glsl_es.cpp
+  9532faa979c8ae862abf7e8202304054  src/render/rt64_glsl_es_device.h
+
+OK: 15 edicoes aplicadas + 3 fontes novos.
+patch rc=0
+
+=== md5 DEPOIS (arvore) ===
+aab8b85f9eb8d9a9ad3133ca26c65087  /root/bhrecomp/lib/rt64/CMakeLists.txt
+96c20c248ba1d7a3532bd5206ee23700  /root/bhrecomp/lib/rt64/src/render/rt64_shader_library.cpp
+1306d9fd2d1631558bd25d895b899d50  /root/bhrecomp/lib/rt64/src/render/rt64_raster_shader.cpp
+68bc02533ef33fd2d4a70904749f33ae  /root/bhrecomp/lib/rt64/src/render/rt64_raster_shader.h
+949a39bdc0ec5f84f56f3b86d1f2df35  /root/bhrecomp/lib/rt64/src/render/rt64_raster_shader_cache.cpp
+58eb4b478dfd948f49ad376c0a481b49  /root/bhrecomp/lib/rt64/src/render/rt64_glsl_es.h
+d2128832b770d8ab3f9fd8ec627cf864  /root/bhrecomp/lib/rt64/src/render/rt64_glsl_es.cpp
+9532faa979c8ae862abf7e8202304054  /root/bhrecomp/lib/rt64/src/render/rt64_glsl_es_device.h
+
+=== conferencia de contagens ===
+createShader(device,  em shader_library : 37
+createShader(device,  em raster_shader  : 20
+device->createShader( residual          : /root/bhrecomp/lib/rt64/src/render/rt64_shader_library.cpp:0
+/root/bhrecomp/lib/rt64/src/render/rt64_raster_shader.cpp:0
+case RenderShaderFormat::GLSL_ES        : /root/bhrecomp/lib/rt64/src/render/rt64_shader_library.cpp:3
+/root/bhrecomp/lib/rt64/src/render/rt64_raster_shader.cpp:4
+/root/bhrecomp/lib/rt64/src/render/rt64_raster_shader_cache.cpp:1
+
+PATCH OK

@@ -1,0 +1,106 @@
+PROBE arch=aarch64/64 (64-bit pointers)
+PROBE dlopen_libEGL=ok
+PROBE libEGL_path=/lib/x86_64-linux-gnu/libEGL.so.1
+PROBE check=[1] dlopen(libEGL.so.1)                                    ok
+PROBE egl_symbols=eglGetDisplay eglGetProcAddress eglInitialize eglQueryString eglBindAPI eglChooseConfig eglGetConfigAttrib eglCreatePbufferSurface eglCreateContext eglMakeCurrent eglDestroyContext eglDestroySurface eglTerminate eglGetError eglReleaseThread 
+PROBE egl_symbols_found=15/15
+PROBE egl_symbols_missing=(nenhum)
+PROBE check=[1b] os 15 entry points do nucleo EGL resolvem             ok
+PROBE libgbm_path=/lib/x86_64-linux-gnu/libgbm.so.1
+PROBE gbm_create_device=ok
+PROBE open_dri_card0=pulado (--no-gbm)
+PROBE eglGetPlatformDisplayEXT=ok
+PROBE display_path=eglGetDisplay(EGL_DEFAULT_DISPLAY)
+PROBE display_handle=0x5f7fbe4f9b60
+PROBE check=[2] EGLDisplay obtido                                      ok
+PROBE egl_version=1.5
+PROBE egl_vendor=Mesa Project
+PROBE egl_version_string=1.5
+PROBE egl_client_apis=OpenGL OpenGL_ES 
+PROBE egl_extensions_bytes=560
+PROBE check=[3a] eglInitialize                                         ok
+PROBE eglBindAPI_ES=ok
+PROBE check=[3b] eglChooseConfig (pbuffer + ES3 + RGBA8888 + depth24)  ok
+PROBE check=[3c] eglCreatePbufferSurface 256x256                       ok
+PROBE check=[3d] eglCreateContext(ES3)                                 ok
+PROBE check=[3e] eglMakeCurrent                                        ok
+PROBE check=[4a] nucleo de GL resolvido via eglGetProcAddress/dlsym    ok
+PROBE gl_version=OpenGL ES 3.2 Mesa 23.2.1-1ubuntu3.1~22.04.4
+PROBE gl_renderer=llvmpipe (LLVM 15.0.7, 256 bits)
+PROBE gl_vendor=Mesa
+PROBE gl_shading_language_version=OpenGL ES GLSL ES 3.20
+PROBE check=[4b] contexto reporta OpenGL ES >= 3.2 (alvo do backend)   ok
+PROBE gl_extensions_count=146
+PROBE gl_extensions=GL_EXT_blend_minmax GL_EXT_multi_draw_arrays GL_EXT_texture_filter_anisotropic GL_EXT_texture_compression_s3tc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_format_BGRA8888 GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_mapbuffer GL_OES_rgb8_rgba8 GL_OES_standard_derivatives GL_OES_stencil8 GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_vertex_half_float GL_EXT_draw_instanced GL_EXT_texture_sRGB_decode GL_OES_EGL_image GL_OES_depth_texture GL_OES_packed_depth_stencil GL_EXT_texture_type_2_10_10_10_REV GL_NV_conditional_render GL_OES_get_program_binary GL_APPLE_texture_max_level GL_EXT_discard_framebuffer GL_EXT_read_format_bgra GL_NV_pack_subimage GL_EXT_frag_depth GL_NV_fbo_color_attachments GL_OES_EGL_image_external GL_OES_EGL_sync GL_OES_vertex_array_object GL_OES_viewport_array GL_ANGLE_pack_reverse_row_order GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_EXT_occlusion_query_boolean GL_EXT_robustness GL_EXT_texture_rg GL_EXT_unpack_subimage GL_NV_draw_buffers GL_NV_read_buffer GL_NV_read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_EXT_draw_buffers GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_KHR_debug GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_NV_generate_mipmap_sRGB GL_NV_pixel_buffer_object GL_OES_depth_texture_cube_map GL_OES_required_internalformat GL_OES_surfaceless_context GL_EXT_color_buffer_float GL_EXT_debug_label GL_EXT_sRGB_write_control GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetch GL_EXT_shader_group_vote GL_EXT_shader_implicit_conversions GL_EXT_shader_integer_mix GL_EXT_tessellation_point_size GL_EXT_tessellation_shader GL_ANDROID_extension_pack_es31a GL_ARM_shader_framebuffer_fetch_depth_stencil GL_EXT_base_instance GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_copy_image GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_gpu_shader5 GL_EXT_polygon_offset_clamp GL_EXT_primitive_bounding_box GL_EXT_render_snorm GL_EXT_shader_io_blocks GL_EXT_texture_border_clamp GL_EXT_texture_buffer GL_EXT_texture_cube_map_array GL_EXT_texture_norm16 GL_EXT_texture_view GL_KHR_blend_equation_advanced GL_KHR_blend_equation_advanced_coherent GL_KHR_context_flush_control GL_KHR_robust_buffer_access_behavior GL_NV_image_formats GL_NV_shader_noperspective_interpolation GL_OES_copy_image GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_gpu_shader5 GL_OES_primitive_bounding_box GL_OES_sample_shading GL_OES_sample_variables GL_OES_shader_io_blocks GL_OES_shader_multisample_interpolation GL_OES_tessellation_point_size GL_OES_tessellation_shader GL_OES_texture_border_clamp GL_OES_texture_buffer GL_OES_texture_cube_map_array GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_texture_view GL_EXT_blend_func_extended GL_EXT_buffer_storage GL_EXT_float_blend GL_EXT_geometry_point_size GL_EXT_geometry_shader GL_EXT_texture_filter_minmax GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 GL_KHR_no_error GL_KHR_texture_compression_astc_sliced_3d GL_OES_EGL_image_external_essl3 GL_OES_geometry_point_size GL_OES_geometry_shader GL_OES_shader_image_atomic GL_EXT_clear_texture GL_EXT_clip_cull_distance GL_EXT_disjoint_timer_query GL_EXT_texture_compression_s3tc_srgb GL_MESA_shader_integer_functions GL_EXT_clip_control GL_EXT_color_buffer_half_float GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_texture_compression_bptc GL_EXT_texture_mirror_clamp_to_edge GL_KHR_parallel_shader_compile GL_EXT_EGL_image_storage GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_texture_shadow_lod GL_MESA_framebuffer_flip_y GL_EXT_depth_clamp GL_EXT_texture_query_lod GL_MESA_bgra 
+PROBE extensions_need=
+PROBE   GL_ARM_shader_framebuffer_fetch                PRESENTE  # M4 (raster: framebuffer fetch)
+PROBE   GL_EXT_multisampled_render_to_texture          AUSENTE   # M4 (MSAA / render-to-texture)
+PROBE   GL_EXT_buffer_storage                          PRESENTE  # M2/M3 (storage imutavel/persistente)
+PROBE   GL_EXT_texture_storage                         AUSENTE   # M2/M3 (texturas imutaveis)
+PROBE   GL_EXT_texture_format_BGRA8888                 PRESENTE  # R8 (formato BGRA)
+PROBE   GL_EXT_texture_norm16                          PRESENTE  # R8 (16-bit UNORM - esperado AUSENTE)
+PROBE   GL_EXT_render_snorm                            PRESENTE  # R8 (render snorm)
+PROBE   GL_KHR_debug                                   PRESENTE  # diagnostico
+PROBE   GL_EXT_disjoint_timer_query                    PRESENTE  # M5 (medicao de FPS)
+PROBE   GL_EXT_geometry_shader                         PRESENTE  # M4 (caminho geometry shader)
+PROBE   GL_EXT_texture_border_clamp                    PRESENTE  # R9 (clamp-to-border)
+PROBE   GL_EXT_gpu_shader5                             PRESENTE  # M3 DECISIVO: legaliza indice dinamico de sampler
+PROBE   GL_NV_gpu_shader5                              AUSENTE   # variante NV (o RAW offline so' checou esta)
+PROBE   GL_EXT_texture_cube_map_array                  PRESENTE  # texturas cubemap array
+PROBE   GL_OES_texture_storage_multisample_2d_array    PRESENTE  # MSAA em texture array
+PROBE   GL_EXT_copy_image                              PRESENTE  # copia de textura
+PROBE   GL_EXT_sRGB                                    PRESENTE  # sRGB
+PROBE check=[5] inventario de extensoes obtido                         ok
+PROBE limits=
+PROBE   GL_MAX_TEXTURE_IMAGE_UNITS                 32        # M3 janela de texturas (frag)
+PROBE   GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS        192       # M3 janela total
+PROBE   GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS          32        # M3
+PROBE   GL_MAX_TEXTURE_SIZE                        16384     # M4 (TMEM/texturas)
+PROBE   GL_MAX_RENDERBUFFER_SIZE                   16384     # M4 framebuffer
+PROBE   GL_MAX_SAMPLES                             4         # M4 MSAA
+PROBE   GL_MAX_DRAW_BUFFERS                        8         # M4
+PROBE   GL_MAX_UNIFORM_BUFFER_BINDINGS             90        # M3 descriptors
+PROBE   GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS      80        # M3/R8 SSBO
+PROBE   GL_MAX_COMPUTE_SHADER_STORAGE_BLOCKS       16        # M4 compute
+PROBE   GL_MAX_VERTEX_UNIFORM_BLOCKS               15        # M3
+PROBE   GL_MAX_FRAGMENT_UNIFORM_BLOCKS             15        # M3
+PROBE   GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT         16        # M3 (alinhamento)
+PROBE   GL_MAX_SHADER_STORAGE_BLOCK_SIZE           134217728  # R7 (ubershader/ESSL)
+PROBE   GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS      1024      # M4 compute
+PROBE clear_readback_rgba=64,128,191,255
+PROBE glGetError=0x0
+PROBE check=[7a] glReadPixels devolve o clear (64,128,191)             ok
+PROBE check=[7b] glGetError() == 0                                     ok
+PROBE gbm_window_surface=pulado (sem gbm_device: sem /dev/dri/card0 ou sem KMS)
+PROBE check=[9a] nucleo de compilacao de shader (ES 3.20) resolvido    ok
+PROBE shader_compile_cases=10
+PROBE   control         compile=ok      link=ok       # compilador ES 3.20 do blob funciona
+PROBE   win16           compile=ok      link=ok       # JANELA do M3: [16] + indice dinamico (uniform)
+PROBE   win16_vary      compile=ok      link=ok       # [16] + indice NAO-UNIFORME (flat in uint)
+PROBE   arr8192         compile=ok      link=FALHOU   # forma do M1.3: [8192] + indice dinamico
+PROBE log_arr8192=error: Too many fragment shader texture samplers
+PROBE   win16_gpu5      compile=ok      link=ok       # [16] + GL_EXT_gpu_shader5 habilitada
+PROBE   arr16_2x        compile=ok      link=ok       # 2 arrays de [16] = 32 samplers (exatamente no limite)
+PROBE   arr16_3x        compile=ok      link=FALHOU   # 3 arrays de [16] = 48 samplers (> limite)
+PROBE log_arr16_3x=error: Too many fragment shader texture samplers
+PROBE   win16_20x       compile=ok      link=FALHOU   # forma-ALVO do M3: 20 arrays de [16] = 320 samplers
+PROBE log_win16_20x=error: Too many fragment shader texture samplers
+PROBE   arr8192_20x     compile=ok      link=FALHOU   # forma REAL do M1.3: 20 arrays de [8192] = 163.840 samplers
+PROBE log_arr8192_20x=error: Too many fragment shader texture samplers
+PROBE log_arr8192_20x=error: count of uniform locations > MAX_UNIFORM_LOCATIONS(163840 > 81920)
+PROBE   const_idx_8192  compile=ok      link=ok       # [8192] + indice LITERAL 7 (o tamanho sozinho quebra?)
+PROBE m3_shader_measurement=
+PROBE   control         COMPILA
+PROBE   win16           COMPILA
+PROBE   win16_vary      COMPILA
+PROBE   arr8192         COMPILA
+PROBE   win16_gpu5      COMPILA
+PROBE   arr16_2x        COMPILA
+PROBE   arr16_3x        COMPILA
+PROBE   win16_20x       COMPILA
+PROBE   arr8192_20x     COMPILA
+PROBE   const_idx_8192  COMPILA
+PROBE check=[9b] controle: ESSL 3.20 trivial compila no driver real    ok
+PROBE checks_total=15
+PROBE checks_failed=0
+PROBE result=PASS

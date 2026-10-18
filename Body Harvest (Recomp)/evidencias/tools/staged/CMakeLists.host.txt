@@ -1,0 +1,71 @@
+# M1.3 estagio 2 -- aceite host-side (x86_64) do caminho de runtime do canal GLES.
+#
+# Compila o CODIGO DE PRODUCAO `lib/rt64/src/render/rt64_glsl_es.cpp` (sem `plume`) linkado
+# ao `spirv-cross` vendorizado e ao `re-spirv` da arvore, e roda o caminho completo
+# `blob GLES -> respv::Optimizer::run -> convertSPIRVToGLSLES -> ESSL 3.20` sobre os blobs
+# REAIS embutidos no binario de cross-compile.
+#
+# Nao faz parte do build cross: e um alvo de aceitacao, gerado a partir de
+# evidencias/tools/staged/ por m1_3_stage2_host.sh.
+
+cmake_minimum_required(VERSION 3.20)
+project(m1_3_stage2_host CXX C)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "" FORCE)
+endif()
+
+set(RT64_TREE "/root/bhrecomp/lib/rt64" CACHE PATH "Raiz de lib/rt64 na arvore do port")
+set(RT64_BUILD_DIR "/root/bhrecomp/build-aarch64" CACHE PATH "Build dir do cross-compile (headers *BlobGLSLES)")
+
+# --- spirv-cross: somente backend GLSL + API C (exatamente o que o runtime usa) ---
+set(SPIRV_CROSS_CLI OFF CACHE BOOL "" FORCE)
+set(SPIRV_CROSS_ENABLE_TESTS OFF CACHE BOOL "" FORCE)
+set(SPIRV_CROSS_SKIP_INSTALL ON CACHE BOOL "" FORCE)
+set(SPIRV_CROSS_ENABLE_HLSL OFF CACHE BOOL "" FORCE)
+set(SPIRV_CROSS_ENABLE_MSL OFF CACHE BOOL "" FORCE)
+set(SPIRV_CROSS_ENABLE_CPP OFF CACHE BOOL "" FORCE)
+set(SPIRV_CROSS_ENABLE_REFLECT OFF CACHE BOOL "" FORCE)
+set(SPIRV_CROSS_ENABLE_UTIL OFF CACHE BOOL "" FORCE)
+set(SPIRV_CROSS_ENABLE_C_API ON CACHE BOOL "" FORCE)
+set(SPIRV_CROSS_STATIC ON CACHE BOOL "" FORCE)
+add_subdirectory("${RT64_TREE}/src/contrib/spirv-cross" "${CMAKE_BINARY_DIR}/spirv-cross")
+
+# --- re-spirv (host) ---
+set(SPIRV-Headers_SOURCE_DIR "${RT64_TREE}/src/contrib/re-spirv/external/SPIRV-Headers" CACHE PATH "" FORCE)
+add_subdirectory("${RT64_TREE}/src/contrib/re-spirv" "${CMAKE_BINARY_DIR}/re-spirv")
+
+# --- codigo de producao (sem plume) ---
+add_library(rt64_glsl_es STATIC "${RT64_TREE}/src/render/rt64_glsl_es.cpp")
+target_compile_definitions(rt64_glsl_es PUBLIC RT64_GLSL_ES_BLOBS)
+target_link_libraries(rt64_glsl_es PUBLIC spirv-cross-c)
+
+add_executable(m1_3_stage2_host "${CMAKE_CURRENT_SOURCE_DIR}/m1_3_stage2_host.cpp")
+
+# Definicoes dos blobs GLES (geradas pelo `file_to_c` do build cross). Os headers
+# (`*.hlsl.glsl_es.h`) sao apenas declaracoes; o conteudo esta nestes .c.
+set(GLES_BLOB_SOURCES
+    "${RT64_BUILD_DIR}/src/shaders/RasterVSSpecConstant.hlsl.glsl_es.c"
+    "${RT64_BUILD_DIR}/src/shaders/RasterVSSpecConstantFlat.hlsl.glsl_es.c"
+    "${RT64_BUILD_DIR}/src/shaders/RasterPSSpecConstant.hlsl.glsl_es.c"
+    "${RT64_BUILD_DIR}/src/shaders/RasterPSSpecConstantMS.hlsl.glsl_es.c"
+    "${RT64_BUILD_DIR}/src/shaders/RasterPSSpecConstantFlat.hlsl.glsl_es.c"
+    "${RT64_BUILD_DIR}/src/shaders/RasterPSSpecConstantFlatMS.hlsl.glsl_es.c"
+    "${RT64_BUILD_DIR}/src/shaders/RasterVSDynamic.hlsl.glsl_es.c"
+    "${RT64_BUILD_DIR}/src/shaders/RasterPSDynamic.hlsl.glsl_es.c"
+    "${RT64_BUILD_DIR}/src/shaders/RasterPSDynamicMS.hlsl.glsl_es.c"
+    "${RT64_BUILD_DIR}/src/shaders/FullScreenVS.hlsl.glsl_es.c"
+    "${RT64_BUILD_DIR}/src/shaders/TextureCopyPS.hlsl.glsl_es.c"
+    "${RT64_BUILD_DIR}/src/shaders/PostBlendDitherNoiseAddPS.hlsl.glsl_es.c")
+foreach (_blob IN LISTS GLES_BLOB_SOURCES)
+    if (NOT EXISTS "${_blob}")
+        message(FATAL_ERROR "blob GLES ausente: ${_blob} (rode o build cross com RT64_GLSL_ES_SHADERS=ON)")
+    endif()
+endforeach()
+target_sources(m1_3_stage2_host PRIVATE ${GLES_BLOB_SOURCES})
+target_include_directories(m1_3_stage2_host PRIVATE "${RT64_TREE}/src/contrib")
+target_include_directories(m1_3_stage2_host PRIVATE "${RT64_TREE}/src/render")
+target_include_directories(m1_3_stage2_host PRIVATE "${RT64_BUILD_DIR}/src/shaders")
+target_link_libraries(m1_3_stage2_host PRIVATE rt64_glsl_es re-spirv)

@@ -1,0 +1,40 @@
+[213/231] Building C object rt64/CMakeFiles/rt64.dir/__/src/shaders/Im3DPS.hlsl.glsl_es.c.o
+[214/231] Building C object rt64/CMakeFiles/rt64.dir/__/src/shaders/PostProcessPS.hlsl.glsl_es.c.o
+[215/231] Building C object rt64/CMakeFiles/rt64.dir/__/src/shaders/DebugPS.hlsl.glsl_es.c.o
+[216/231] Building C object rt64/CMakeFiles/rt64.dir/__/src/shaders/PostProcessPS.hlsl.spirv.c.o
+[217/231] Building C object rt64/CMakeFiles/rt64.dir/__/src/shaders/DebugPS.hlsl.spirv.c.o
+[218/231] Building CXX object rt64/CMakeFiles/rt64.dir/src/contrib/imgui/imgui.cpp.o
+[219/231] Building CXX object rt64/CMakeFiles/rt64.dir/src/contrib/implot/implot.cpp.o
+[220/231] Building CXX object rt64/CMakeFiles/rt64.dir/src/render/rt64_texture_cache.cpp.o
+[221/231] Building CXX object rt64/CMakeFiles/rt64.dir/src/contrib/implot/implot_items.cpp.o
+[222/231] Linking CXX static library rt64/rt64.a
+[223/231] Building C object CMakeFiles/BodyHarvestRecompiled.dir/icon_bytes.c.o
+cc1: warning: /root/sysroot64/usr/lib/aarch64-linux-gnu/libfreetype.so: not a directory
+[224/231] Building CXX object CMakeFiles/BodyHarvestRecompiled.dir/src/main/register_overlays.cpp.o
+cc1plus: warning: /root/sysroot64/usr/lib/aarch64-linux-gnu/libfreetype.so: not a directory
+[225/231] Building CXX object CMakeFiles/BodyHarvestRecompiled.dir/src/main/theme.cpp.o
+cc1plus: warning: /root/sysroot64/usr/lib/aarch64-linux-gnu/libfreetype.so: not a directory
+[226/231] Building CXX object CMakeFiles/BodyHarvestRecompiled.dir/src/main/bh_config.cpp.o
+cc1plus: warning: /root/sysroot64/usr/lib/aarch64-linux-gnu/libfreetype.so: not a directory
+[227/231] Building CXX object CMakeFiles/BodyHarvestRecompiled.dir/src/main/main.cpp.o
+cc1plus: warning: /root/sysroot64/usr/lib/aarch64-linux-gnu/libfreetype.so: not a directory
+In file included from /root/bhrecomp/lib/N64ModernRuntime/librecomp/include/librecomp/rsp_vu.hpp:29,
+                 from /root/bhrecomp/lib/N64ModernRuntime/librecomp/include/librecomp/rsp.hpp:6,
+                 from /root/bhrecomp/lib/N64ModernRuntime/librecomp/include/librecomp/game.hpp:8,
+                 from /root/bhrecomp/lib/N64ModernRuntime/librecomp/include/librecomp/mods.hpp:27,
+                 from /root/bhrecomp/lib/RecompFrontend/recompui/include/recompui/renderer.h:9,
+                 from /root/bhrecomp/src/main/main.cpp:33:
+/root/bhrecomp/lib/N64ModernRuntime/thirdparty/sse2neon/sse2neon.h:115:2: warning: #warning "Report any potential compiler optimization issues when using SSE2NEON. See the 'Optimization' section at https://github.com/DLTcollab/sse2neon." [-Wcpp]
+  115 | #warning \
+      |  ^~~~~~~
+[228/231] Building CXX object CMakeFiles/BodyHarvestRecompiled.dir/rsp/aspMain.cpp.o
+cc1plus: warning: /root/sysroot64/usr/lib/aarch64-linux-gnu/libfreetype.so: not a directory
+In file included from /root/bhrecomp/lib/N64ModernRuntime/librecomp/include/librecomp/rsp_vu.hpp:29,
+                 from /root/bhrecomp/lib/N64ModernRuntime/librecomp/include/librecomp/rsp.hpp:6,
+                 from /root/bhrecomp/rsp/aspMain.cpp:1:
+/root/bhrecomp/lib/N64ModernRuntime/thirdparty/sse2neon/sse2neon.h:115:2: warning: #warning "Report any potential compiler optimization issues when using SSE2NEON. See the 'Optimization' section at https://github.com/DLTcollab/sse2neon." [-Wcpp]
+  115 | #warning \
+      |  ^~~~~~~
+[229/231] Building CXX object CMakeFiles/BodyHarvestRecompiled.dir/src/main/recomp_data_api.cpp.o
+cc1plus: warning: /root/sysroot64/usr/lib/aarch64-linux-gnu/libfreetype.so: not a directory
+[230/231] Linking CXX executable BodyHarvestRecompiled

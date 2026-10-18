@@ -1,0 +1,375 @@
+#version 320 es
+precision highp float;
+precision highp int;
+
+struct _16
+{
+    highp vec4 _m0;
+    highp vec2 _m1;
+    highp vec2 _m2;
+    highp vec4 _m3;
+    highp vec4 _m4;
+    highp vec4 _m5;
+    highp vec3 _m6;
+    highp float _m7;
+    highp vec3 _m8;
+    int _m9[6];
+    int _m10[3];
+};
+
+struct _19
+{
+    int _m0;
+    int _m1;
+    int _m2;
+    int _m3;
+    int _m4;
+    int _m5;
+    int _m6;
+    highp float _m7;
+    highp float _m8;
+    highp float _m9;
+    highp float _m10;
+    highp float _m11;
+    highp float _m12;
+    int _m13;
+    int _m14;
+    uint _m15;
+};
+
+struct _22
+{
+    highp vec2 _m0;
+    highp vec2 _m1;
+    uvec2 _m2;
+    uvec2 _m3;
+    uint _m4;
+    uint _m5;
+    uint _m6;
+    uint _m7;
+    highp vec3 _m8;
+    uint _m9;
+};
+
+struct _25
+{
+    uint _m0;
+    uint _m1;
+    uint _m2;
+    uint _m3;
+    uint _m4;
+};
+
+vec4 _246;
+
+layout(binding = 1, std140) uniform _13_14
+{
+    uint _m0;
+    uint _m1;
+    highp float _m2;
+} _14;
+
+layout(binding = 2, std430) readonly buffer _15_17
+{
+    _16 _m0[];
+} _17;
+
+layout(binding = 3, std430) readonly buffer _18_20
+{
+    _19 _m0[];
+} _20;
+
+layout(binding = 4, std430) readonly buffer _21_23
+{
+    _22 _m0[];
+} _23;
+
+layout(binding = 5, std430) readonly buffer _24_26
+{
+    _25 _m0[];
+} _26;
+
+layout(binding = 0, std140) uniform _50_51
+{
+    highp vec2 _m0;
+    highp vec2 _m1;
+    highp float _m2;
+} _51;
+
+struct _52
+{
+    uint _m0;
+    uint _m1;
+    uint _m2;
+    uint _m3;
+    uvec3 _m4;
+    uint _m5;
+    highp vec2 _m6;
+    highp vec2 _m7;
+};
+
+uniform _52 _53;
+
+layout(location = 0) in highp vec2 _4;
+layout(location = 1) in highp vec4 _5;
+layout(location = 0, index = 0) out highp vec4 _6;
+layout(location = 0, index = 1) out highp vec4 _7;
+
+void main()
+{
+    highp vec4 _12551;
+    highp vec4 _12552;
+    bool _12553;
+    do
+    {
+        highp vec4 _265;
+        _265 = vec4(0.0, 0.0, 0.0, _5.w);
+        bool _538;
+        _538 = false;
+        bool _549;
+        if (!(gl_FragCoord.z < 0.0))
+        {
+            _549 = gl_FragCoord.z > (_538 ? 0.998046875 : 1.0);
+        }
+        else
+        {
+            _549 = true;
+        }
+        if (_549)
+        {
+            _12551 = _246;
+            _12552 = _246;
+            _12553 = false;
+            break;
+        }
+        highp vec4 _5616;
+        _5616 = vec4(0.0, 0.0, 0.0, 1.0);
+        do
+        {
+            do
+            {
+                do
+                {
+                    break;
+                } while(false);
+                break;
+            } while(false);
+            break;
+        } while(false);
+        do
+        {
+            do
+            {
+                break;
+            } while(false);
+            break;
+        } while(false);
+        do
+        {
+            do
+            {
+                do
+                {
+                    break;
+                } while(false);
+                break;
+            } while(false);
+            break;
+        } while(false);
+        do
+        {
+            do
+            {
+                break;
+            } while(false);
+            break;
+        } while(false);
+        do
+        {
+            break;
+        } while(false);
+        do
+        {
+            break;
+        } while(false);
+        do
+        {
+            break;
+        } while(false);
+        do
+        {
+            break;
+        } while(false);
+        highp vec4 _10779;
+        _10779 = vec4(0.0);
+        highp vec4 _10823;
+        _10823 = _10779;
+        highp vec3 _10890;
+        do
+        {
+            highp vec3 _10888;
+            _10888 = _5616.xyz;
+            _10890 = _10888;
+            break;
+        } while(false);
+        highp vec3 _10957;
+        do
+        {
+            _10957 = vec3(0.0);
+            break;
+        } while(false);
+        highp vec3 _11025;
+        do
+        {
+            _11025 = _265.xyz;
+            break;
+        } while(false);
+        highp vec3 _11092;
+        do
+        {
+            _11092 = vec3(0.0);
+            break;
+        } while(false);
+        highp vec3 _11093 = fma(_10890 - _10957, _11025, _11092);
+        highp vec4 _11094 = vec4(_11093.x, _11093.y, _11093.z, _10823.w);
+        highp float _11123;
+        do
+        {
+            _11123 = 0.0;
+            break;
+        } while(false);
+        highp float _11151;
+        do
+        {
+            _11151 = 0.0;
+            break;
+        } while(false);
+        highp float _11180;
+        do
+        {
+            _11180 = 0.0;
+            break;
+        } while(false);
+        highp float _11208;
+        do
+        {
+            highp float _11207;
+            _11207 = _5616.w;
+            _11208 = _11207;
+            break;
+        } while(false);
+        _11094.w = fma(_11123 - _11151, _11180, _11208);
+        highp vec4 _11211;
+        _11211 = _11094;
+        highp vec4 _11824;
+        _11824 = _11211;
+        highp float _11827 = fma(2.0078432559967041015625, step(_11824.x, -0.503921568393707275390625), _11824.x);
+        highp float _11833 = fma(2.0078432559967041015625, step(_11824.y, -0.503921568393707275390625), _11824.y);
+        highp float _11839 = fma(2.0078432559967041015625, step(_11824.z, -0.503921568393707275390625), _11824.z);
+        highp float _11845 = fma(2.0078432559967041015625, step(_11824.w, -0.503921568393707275390625), _11824.w);
+        highp vec4 _11846 = vec4(clamp(fma(-2.0078432559967041015625, step(1.50392162799835205078125, _11827), _11827), 0.0, 1.0), clamp(fma(-2.0078432559967041015625, step(1.50392162799835205078125, _11833), _11833), 0.0, 1.0), clamp(fma(-2.0078432559967041015625, step(1.50392162799835205078125, _11839), _11839), 0.0, 1.0), _11845);
+        highp float _11849 = clamp(fma(-2.0078432559967041015625, step(1.50392162799835205078125, _11845), _11845), 0.0, 1.0);
+        _11846.w = _11849;
+        highp float _11880 = (((5u >> 29u) & 1u) != 0u) ? 65535.0 : 255.0;
+        if (((8.0 / _11880) * (((5261904u & 4096u) != 0u) ? _11849 : 1.0)) < (1.0 / _11880))
+        {
+            _12551 = _246;
+            _12552 = _246;
+            _12553 = false;
+            break;
+        }
+        highp vec4 _12382;
+        do
+        {
+            do
+            {
+                break;
+            } while(false);
+            highp float _12167;
+            highp vec3 _12168;
+            do
+            {
+                highp vec3 _12097;
+                do
+                {
+                    _12097 = _11846.xyz;
+                    break;
+                } while(false);
+                highp float _12105;
+                do
+                {
+                    _12105 = _11849;
+                    break;
+                } while(false);
+                highp float _12106;
+                highp vec3 _12107;
+                _12106 = _12105;
+                _12107 = _12097;
+                highp float _12125;
+                highp vec3 _12126;
+                _12125 = _12106;
+                _12126 = _12107;
+                highp float _12127;
+                highp vec3 _12128;
+                _12127 = _12125;
+                _12128 = _12126;
+                highp float _12163;
+                highp vec3 _12164;
+                _12163 = _12127;
+                _12164 = _12128;
+                _12167 = _12163;
+                _12168 = _12164;
+                break;
+            } while(false);
+            highp float _12376;
+            highp vec3 _12377;
+            _12376 = _12167;
+            _12377 = _12168;
+            _12382 = vec4(_12377, _12376);
+            break;
+        } while(false);
+        do
+        {
+            do
+            {
+                break;
+            } while(false);
+            do
+            {
+                break;
+            } while(false);
+            break;
+        } while(false);
+        highp vec4 _12501 = vec4(1.0);
+        _12501.w = _12382.w;
+        highp vec4 _12502;
+        _12502 = _12501;
+        highp vec4 _12522 = _12382;
+        _12522.w = 7.0 / _11880;
+        highp vec4 _12523;
+        _12523 = _12522;
+        highp vec4 _12525;
+        _12525 = _12523;
+        highp vec4 _12550;
+        if (_26._m0[_53._m0]._m4 > 0u)
+        {
+            highp float _12546 = float((_26._m0[_53._m0]._m4 >> 0u) & 255u) * 0.0039215688593685626983642578125;
+            _12550 = mix(_12525, vec4(float((_26._m0[_53._m0]._m4 >> 24u) & 255u) * 0.0039215688593685626983642578125, float((_26._m0[_53._m0]._m4 >> 16u) & 255u) * 0.0039215688593685626983642578125, float((_26._m0[_53._m0]._m4 >> 8u) & 255u) * 0.0039215688593685626983642578125, _12546), vec4(_12546));
+        }
+        else
+        {
+            _12550 = _12525;
+        }
+        _12551 = _12502;
+        _12552 = _12550;
+        _12553 = true;
+        break;
+    } while(false);
+    if (!_12553)
+    {
+        discard;
+    }
+    _6 = _12552;
+    _7 = _12551;
+}
+

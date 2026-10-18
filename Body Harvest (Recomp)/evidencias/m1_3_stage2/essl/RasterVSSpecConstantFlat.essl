@@ -1,0 +1,80 @@
+#version 320 es
+precision highp float;
+
+struct _14
+{
+    vec4 _m0;
+    vec2 _m1;
+    vec2 _m2;
+    vec4 _m3;
+    vec4 _m4;
+    vec4 _m5;
+    vec3 _m6;
+    float _m7;
+    vec3 _m8;
+    int _m9[6];
+    int _m10[3];
+};
+
+struct _17
+{
+    uint _m0;
+    uint _m1;
+    uint _m2;
+    uint _m3;
+    uint _m4;
+};
+
+layout(binding = 2, std430) readonly buffer _13_15
+{
+    _14 _m0[];
+} _15;
+
+layout(binding = 5, std430) readonly buffer _16_18
+{
+    _17 _m0[];
+} _18;
+
+layout(binding = 0, std140) uniform _19_20
+{
+    vec2 _m0;
+    vec2 _m1;
+    float _m2;
+} _20;
+
+struct _21
+{
+    uint _m0;
+    uint _m1;
+    uint _m2;
+    uint _m3;
+    uvec3 _m4;
+    uint _m5;
+    vec2 _m6;
+    vec2 _m7;
+};
+
+uniform _21 _22;
+
+layout(location = 0) in vec4 _3;
+layout(location = 1) in vec2 _4;
+layout(location = 2) in vec4 _5;
+layout(location = 0) out vec2 _7;
+layout(location = 1) out vec4 _8;
+layout(location = 2) out vec4 _9;
+
+void main()
+{
+    vec4 _95;
+    _95 = _3;
+    vec2 _103 = fma(_95.xy, _22._m6, _22._m7 * _95.w);
+    vec4 _121;
+    _121 = vec4(_103.x, _103.y, _95.z, _95.w);
+    vec4 _124 = _121;
+    _124.y = -_121.y;
+    gl_Position = _124;
+    _7 = _4;
+    _8 = _5;
+    _9 = _5;
+}
+

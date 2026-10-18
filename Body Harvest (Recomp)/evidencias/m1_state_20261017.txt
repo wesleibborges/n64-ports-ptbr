@@ -1,0 +1,384 @@
+=== M1 STATE 2026-10-17T18:32:23-03:00 ===
+--- rootfs/loop ---
+/opt/r36s/rootfs is a mountpoint
+/dev/loop1: [2096]:253788 (/opt/r36s/darkos.img), offset 121634816, sizelimit 8545894400
+/dev/loop2: [2096]:253788 (/opt/r36s/darkos.img), offset 121634816, sizelimit 8545894400
+/dev/loop0: [2096]:15434 (/opt/r36s/boot.img)
+--- spv count ---
+56
+--- md5 blob vs dx copy ---
+d592de4472eee211c696407c669d6702  /root/bhrecomp/build-aarch64/src/shaders/RasterPSDynamic.hlsl.spv
+d592de4472eee211c696407c669d6702  /root/bhrecomp/m1_fix/RasterPSDynamic.dx.spv
+--- fail_xc ---
+RSPProcessCS.hlsl.spv
+RasterPSDynamic.hlsl.spv
+RasterPSDynamicMS.hlsl.spv
+RasterPSSpecConstant.hlsl.spv
+RasterPSSpecConstantFlat.hlsl.spv
+RasterPSSpecConstantFlatMS.hlsl.spv
+RasterPSSpecConstantMS.hlsl.spv
+RasterVSDynamic.hlsl.spv
+RasterVSSpecConstant.hlsl.spv
+RasterVSSpecConstantFlat.hlsl.spv
+--- fail_glsl ---
+DebugPS.hlsl.spv
+FbReinterpretCS.hlsl.spv
+Im3DVS.hlsl.spv
+RSPSmoothNormalCS.hlsl.spv
+TextureDecodeCS.hlsl.spv
+--- shared dir ---
+total 180
+drwxr-xr-x  2 root root  4096 Oct 16 13:40 .
+drwxr-xr-x 15 root root  4096 Oct 16 13:40 ..
+-rw-r--r--  1 root root 20930 Oct 16 13:40 rt64_blender.h
+-rw-r--r--  1 root root 21533 Oct 16 13:40 rt64_color_combiner.h
+-rw-r--r--  1 root root  4711 Oct 16 13:40 rt64_extra_params.h
+-rw-r--r--  1 root root  4651 Oct 16 13:40 rt64_f3d_defines.h
+-rw-r--r--  1 root root   360 Oct 16 13:40 rt64_fb_common.h
+-rw-r--r--  1 root root   435 Oct 16 13:40 rt64_fb_reinterpret.h
+-rw-r--r--  1 root root   250 Oct 16 13:40 rt64_frame_params.h
+-rw-r--r--  1 root root   263 Oct 16 13:40 rt64_framebuffer_params.h
+-rw-r--r--  1 root root  1333 Oct 16 13:40 rt64_gpu_tile.h
+-rw-r--r--  1 root root  7680 Oct 16 13:40 rt64_hlsl.h
+-rw-r--r--  1 root root   547 Oct 16 13:40 rt64_hlsl_json.cpp
+-rw-r--r--  1 root root   339 Oct 16 13:40 rt64_hlsl_json.h
+-rw-r--r--  1 root root   318 Oct 16 13:40 rt64_interleaved_raster.h
+-rw-r--r--  1 root root  2139 Oct 16 13:40 rt64_other_mode.h
+-rw-r--r--  1 root root   510 Oct 16 13:40 rt64_point_light.h
+-rw-r--r--  1 root root   267 Oct 16 13:40 rt64_raster_params.h
+-rw-r--r--  1 root root  3043 Oct 16 13:40 rt64_raytracing_params.h
+-rw-r--r--  1 root root   380 Oct 16 13:40 rt64_rdp_params.h
+-rw-r--r--  1 root root   472 Oct 16 13:40 rt64_rdp_tile.h
+-rw-r--r--  1 root root  3195 Oct 16 13:40 rt64_render_flags.h
+-rw-r--r--  1 root root   304 Oct 16 13:40 rt64_render_indices.h
+-rw-r--r--  1 root root   354 Oct 16 13:40 rt64_render_params.h
+-rw-r--r--  1 root root   189 Oct 16 13:40 rt64_render_target_copy.h
+-rw-r--r--  1 root root   196 Oct 16 13:40 rt64_rsp_fog.h
+-rw-r--r--  1 root root  2124 Oct 16 13:40 rt64_rsp_light.h
+-rw-r--r--  1 root root   301 Oct 16 13:40 rt64_rsp_lookat.h
+-rw-r--r--  1 root root   304 Oct 16 13:40 rt64_rsp_vertex_test_z.h
+-rw-r--r--  1 root root  1235 Oct 16 13:40 rt64_rsp_viewport.h
+-rw-r--r--  1 root root   211 Oct 16 13:40 rt64_texture_copy.h
+-rw-r--r--  1 root root   252 Oct 16 13:40 rt64_video_interface.h
+=== rt64_rdp_params.h ===
+//
+// RT64
+//
+
+#pragma once
+
+#include "rt64_hlsl.h"
+
+#ifdef HLSL_CPU
+namespace interop {
+#endif
+    struct RDPParams {
+        float4 primColor;
+        float2 primLOD;
+        float2 primDepth;
+        float4 envColor;
+        float4 fogColor;
+        float4 blendColor;
+        float3 keyCenter;
+        float3 keyScale;
+        int convertK[6];
+    };
+#ifdef HLSL_CPU
+};
+#endif=== rt64_raster_params.h ===
+//
+// RT64
+//
+
+#pragma once
+
+#include "shared/rt64_hlsl.h"
+
+#ifdef HLSL_CPU
+namespace interop {
+#endif
+    struct RasterParams {
+        uint renderIndex;
+        uint3 padding;
+        float2 screenScale;
+        float2 screenOffset;
+    };
+#ifdef HLSL_CPU
+};
+#endif=== rt64_hlsl.h head ===
+//
+// RT64
+//
+
+#pragma once
+
+#ifdef HLSL_CPU
+
+#include <stdint.h>
+
+#include "common/rt64_hlslpp.h"
+
+#define FLOAT4X4_IDENTITY float4x4(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f)
+
+namespace interop {
+    typedef uint32_t uint;
+
+    // These types do not have the same alignment in HLSLPP as HLSL.
+    // We define them and auto-convert them wherever is possible.
+
+    struct int1 {
+        union {
+            struct {
+                int x;
+            };
+
+            int i32[1];
+        };
+
+        int1() = default;
+        inline int1(int x) : x(x) { }
+        inline int &operator[](int i) { return i32[i]; }
+        inline const int &operator[](int i) const { return i32[i]; }
+    };
+
+    struct int2 {
+        union {
+            struct {
+                int x;
+                int y;
+            };
+
+            int i32[2];
+        };
+
+        int2() = default;
+        inline int2(int x, int y) : x(x), y(y) { }
+        inline int &operator[](int i) { return i32[i]; }
+        inline const int &operator[](int i) const { return i32[i]; }
+    };
+
+    struct int3 {
+        union {
+            struct {
+                int x;
+                int y;
+                int z;
+            };
+
+            int i32[3];
+        };
+
+        int3() = default;
+        inline int3(int x, int y, int z) : x(x), y(y), z(z) { }
+        inline int &operator[](int i) { return i32[i]; }
+        inline const int &operator[](int i) const { return i32[i]; }
+    };
+
+    struct int4 {
+        union {
+--- dxc cmd RasterPSDynamic ---
+cd /root/bhrecomp/build-aarch64/rt64 && LD_LIBRARY_PATH=/root/bhrecomp/lib/rt64/src/contrib/dxc/lib/arm64 /root/bhrecomp/lib/rt64/src/contrib/dxc/bin/arm64/dxc-linux -spirv -fspv-target-env=vulkan1.0 -fvk-use-dx-layout -I/root/bhrecomp/lib/rt64/src -E PSMain -T\ ps_6_3 -D\ DYNAMIC_RENDER_PARAMS /root/bhrecomp/lib/rt64/src/shaders/RasterPS.hlsl /Fo /root/bhrecomp/build-aarch64/src/shaders/RasterPSDynamic.hlsl.spv
+--- dxc cmd RSPProcessCS ---
+cd /root/bhrecomp/build-aarch64/rt64 && LD_LIBRARY_PATH=/root/bhrecomp/lib/rt64/src/contrib/dxc/lib/arm64 /root/bhrecomp/lib/rt64/src/contrib/dxc/bin/arm64/dxc-linux -spirv -fspv-target-env=vulkan1.0 -fvk-use-dx-layout -I/root/bhrecomp/lib/rt64/src -E CSMain -T\ cs_6_3 /root/bhrecomp/lib/rt64/src/shaders/RSPProcessCS.hlsl /Fo /root/bhrecomp/build-aarch64/src/shaders/RSPProcessCS.hlsl.spv
+--- reflect RasterPSDynamic ---
+{
+    "entryPoints" : [
+        {
+            "name" : "PSMain",
+            "mode" : "frag"
+        }
+    ],
+    "types" : {
+        "_10" : {
+            "name" : "type.ConstantBuffer.FrameParams",
+            "members" : [
+                {
+                    "name" : "frameCount",
+                    "type" : "uint",
+                    "offset" : 0
+                },
+                {
+                    "name" : "viewUbershaders",
+                    "type" : "uint",
+                    "offset" : 4
+                },
+                {
+                    "name" : "ditherNoiseStrength",
+                    "type" : "float",
+                    "offset" : 8
+                }
+            ]
+        },
+        "_13" : {
+            "name" : "RDPParams",
+            "members" : [
+                {
+                    "name" : "primColor",
+                    "type" : "vec4",
+                    "offset" : 0
+                },
+                {
+                    "name" : "primLOD",
+                    "type" : "vec2",
+                    "offset" : 16
+                },
+                {
+                    "name" : "primDepth",
+                    "type" : "vec2",
+                    "offset" : 24
+                },
+                {
+                    "name" : "envColor",
+                    "type" : "vec4",
+                    "offset" : 32
+                },
+                {
+                    "name" : "fogColor",
+                    "type" : "vec4",
+                    "offset" : 48
+                },
+                {
+                    "name" : "blendColor",
+                    "type" : "vec4",
+                    "offset" : 64
+                },
+                {
+                    "name" : "keyCenter",
+                    "type" : "vec3",
+                    "offset" : 80
+                },
+                {
+                    "name" : "keyScale",
+                    "type" : "vec3",
+                    "offset" : 92
+                },
+                {
+                    "name" : "convertK",
+                    "type" : "int",
+                    "array" : [
+                        6
+                    ],
+                    "array_size_is_literal" : [
+                        true
+                    ],
+                    "offset" : 104,
+                    "array_stride" : 4
+                }
+            ]
+        },
+        "_12" : {
+            "name" : "type.StructuredBuffer.RDPParams",
+            "members" : [
+                {
+                    "name" : "_m0",
+                    "type" : "_13",
+                    "array" : [
+                        0
+                    ],
+                    "array_size_is_literal" : [
+                        true
+                    ],
+                    "offset" : 0,
+                    "array_stride" : 128
+                }
+            ]
+        },
+        "_16" : {
+            "name" : "RDPTile",
+            "members" : [
+                {
+                    "name" : "fmt",
+                    "type" : "int",
+                    "offset" : 0
+                },
+--- reflect RSPProcessCS ---
+{
+    "entryPoints" : [
+        {
+            "name" : "CSMain",
+            "mode" : "comp",
+            "workgroup_size" : [
+                64,
+                1,
+                1
+            ],
+            "workgroup_size_is_spec_constant_id" : [
+                false,
+                false,
+                false
+            ]
+        }
+    ],
+    "types" : {
+        "_4" : {
+            "name" : "type.ConstantBuffer.RSPProcessCB",
+            "members" : [
+                {
+                    "name" : "vertexStart",
+                    "type" : "uint",
+                    "offset" : 0
+                },
+                {
+                    "name" : "vertexCount",
+                    "type" : "uint",
+                    "offset" : 4
+                },
+                {
+                    "name" : "prevFrameWeight",
+                    "type" : "float",
+                    "offset" : 8
+                },
+                {
+                    "name" : "curFrameWeight",
+                    "type" : "float",
+                    "offset" : 12
+                }
+            ]
+        },
+        "_22" : {
+            "name" : "RSPViewport",
+            "members" : [
+                {
+                    "name" : "scale",
+                    "type" : "vec3",
+                    "offset" : 0
+                },
+                {
+                    "name" : "translate",
+                    "type" : "vec3",
+                    "offset" : 12
+                }
+            ]
+        },
+        "_21" : {
+            "name" : "type.StructuredBuffer.RSPViewport",
+            "members" : [
+                {
+                    "name" : "_m0",
+                    "type" : "_22",
+                    "array" : [
+                        0
+                    ],
+                    "array_size_is_literal" : [
+                        true
+                    ],
+                    "offset" : 0,
+                    "array_stride" : 24
+                }
+            ]
+        },
+        "_25" : {
+            "name" : "RSPFog",
+            "members" : [
+                {
+                    "name" : "mul",
+                    "type" : "float",
+                    "offset" : 0
+                },
+                {
+                    "name" : "offset",
+                    "type" : "float",
+                    "offset" : 4
+                }
+            ]
+        },

@@ -1,0 +1,94 @@
+=== EVIDENCIA RAW: M2 sessao 1 -- verificacao consolidada ===
+Data (UTC): 2026-10-18
+Ambiente: WSL Ubuntu 22.04 x86_64, g++ 11.4.0
+Diretorio: /root/bhrecomp/m2_gles/staged
+Conta AWS: nao aplicavel
+Doc narrativo: evidencias/evidence_m2_gles_skeleton_s1_20261018.md
+
+-------------------------------------------------------------------------------
+[1] GERACAO DO CARREGADOR
+-------------------------------------------------------------------------------
+API/Comando:
+  python3 /mnt/c/Users/wesle/dev/ports/Body Harvest (Recomp)/evidencias/tools/gen_gles_loader.py \
+      /opt/r36s/rootfs/usr/include/GLES3/gl32.h . plume_gles_gl
+
+Saida:
+  gen_gles_loader: fonte=/opt/r36s/rootfs/usr/include/GLES3/gl32.h
+    -> ./plume_gles_gl.h (1799 linhas)
+    -> ./plume_gles_gl.cpp (42 linhas)
+    tipos=22 constantes=1006 entry_points=358
+
+-------------------------------------------------------------------------------
+[2] COMPLETUDE (358/358) -- diff contra o header do Khronos
+-------------------------------------------------------------------------------
+  grep -oP '^GL_APICALL.*GL_APIENTRY \Kgl\w+' gl32.h | sort   -> 358 nomes
+  grep -oP '^    X\(\Kgl\w+' plume_gles_gl.h | sort           -> 358 nomes
+  comm -23 (all) (gen)  ->  (vazio)
+
+Conclusao: nenhum entry point de GLES 3.2 ficou de fora.
+
+-------------------------------------------------------------------------------
+[3] HOST COMPILE DO CARREGADOR (sem sysroot, sem SDL2, sem libGLESv2)
+-------------------------------------------------------------------------------
+  g++ -std=c++17 -Wall -Wextra -c plume_gles_gl.cpp -o /tmp/plume_gles_gl_host.o
+  HOST_COMPILE_RC=0
+  -rw-r--r-- 1 root root 260208 /tmp/plume_gles_gl_host.o
+
+Conclusao: header auto-contido funciona sem nenhuma dependencia do device.
+
+-------------------------------------------------------------------------------
+[4] VERIFICACAO CONSOLIDADA FINAL (-Wall -Wextra, todos os TUs)
+-------------------------------------------------------------------------------
+  g++ -std=c++17 -fsyntax-only -Wall -Wextra -I. \
+      -I/root/bhrecomp/lib/rt64/src/contrib/plume \
+      _hdr_check.cpp m2_hdr_coverage.cpp plume_gles.cpp plume_gles_gl.cpp
+  REVISAO_FINAL_RC=0
+  (nenhum aviso, nenhum erro)
+
+  _hdr_check.cpp        -> inclui plume_gles.h (0 erros)
+  m2_hdr_coverage.cpp   -> 22 static_assert de classe concreta + 1 de abstrata (0 linhas de saida)
+  plume_gles.cpp        -> implementacao parcial (0 avisos)
+  plume_gles_gl.cpp     -> loader gerado (0 avisos)
+
+-------------------------------------------------------------------------------
+[5] HASHES DOS ARTEFATOS (conferem com a arvore de producao)
+-------------------------------------------------------------------------------
+  f0f0c175d3a09c4902ee119d620bf335  plume_gles.h       (29715 B, 604 linhas)
+  4cab332420421dbe1516f9dda9e8b180  plume_gles.cpp     (22293 B, 473 linhas)
+  9678cf48ca0c72a70e4901b579a35052  plume_gles_gl.h    (110318 B, 1799 linhas)
+  573fa89a6a295188f5f9b3c77da15aba  plume_gles_gl.cpp  (1089 B, 42 linhas)
+  17ba6157b6bbbef108a3e40d81c079c4  m2_hdr_coverage.cpp
+
+  Onde: /root/bhrecomp/lib/rt64/src/contrib/plume/  (copia inerte -- o CMake
+  ainda NAO referencia plume_gles; verificado por grep, so um comentario menciona).
+
+-------------------------------------------------------------------------------
+[6] AUSENCIA DE CONSTANTES NO ES 3.2 CORE (achado R8/R9)
+-------------------------------------------------------------------------------
+  grep -E '^#define (GL_RGBA16F|...|GL_BGRA|GL_RGBA16|GL_R16|GL_RG16|GL_RGBA16_SNORM|...)' \
+      plume_gles_gl.h | cut -d' ' -f2
+
+  Presentes: GL_RGBA32F GL_RGBA16F GL_RG16F GL_R16F GL_RG32F GL_R32F GL_R32I GL_R32UI
+             GL_DEPTH_COMPONENT16 GL_DEPTH_COMPONENT32F GL_DEPTH32F_STENCIL8
+             GL_FLOAT_32_UNSIGNED_INT_24_8_REV GL_HALF_FLOAT GL_TEXTURE_2D_MULTISAMPLE
+             GL_TEXTURE_2D_ARRAY GL_TEXTURE_3D ...
+  AUSENTES : GL_BGRA, GL_RGBA16, GL_RGBA16_SNORM, GL_RG16, GL_R16, GL_MIRROR_CLAMP_TO_EDGE
+
+Conclusao: B8G8R8A8_UNORM e os formatos UNORM de 16 bits NAO tem equivalente em
+ES 3.2 core (registrado como R8); MIRROR_CLAMP_TO_EDGE inexistente (R9).
+
+-------------------------------------------------------------------------------
+[7] ARQUIVOS DE EVIDENCIA NO PROJETO
+-------------------------------------------------------------------------------
+  evidencias/evidence_m2_gles_skeleton_s1_20261018.md   (doc narrativo + RAW)
+  evidencias/m2_gles_s1/                                (copias dos 5 artefatos + este log)
+  evidencias/tools/gen_gles_loader.py                   (gerador)
+  evidencias/tools/staged/                              (fontes-verdade)
+  /root/bhrecomp/m2_gles/staged/                        (espelho de execucao)
+
+=== CONCLUSAO ===
+M2 sessao 1 CONCLUIDA: carregador GLES 358/358 verificado, header cobrindo a
+interface inteira (prova por static_assert), tradutores + GLESInterface +
+GLESDevice implementados, backend SDK-free e host-testavel. O aceite do M2
+(frames no device) depende da etapa 2 (create*/recursos/CommandList/SwapChain +
+gate CMake + gles_smoke + QEMU) e NAO foi executado nesta sessao.

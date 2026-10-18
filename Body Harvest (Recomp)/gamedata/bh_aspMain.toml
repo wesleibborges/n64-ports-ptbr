@@ -1,0 +1,26 @@
+# Body Harvest audio ucode (aspMain, custom DMA Design / libaudio 2.0I-derived)
+# Segmento rsp/audioucode: ROM 0x2FF10, blob total 0x1E10 bytes (bh.us.yaml)
+# MAS: o rspboot (ROM 0x2EA10, 0xD0 bytes) faz o DMA do texto do ucode com
+# tamanho HARDCODED 0xF80 bytes (addi v1, zero, 0xF7F; mtc0 v1 -> rd_len)
+# para IMEM 0x1080..0x1FFF. Apenas os primeiros 0xF80 bytes do blob executam.
+# IMEM real ocupada: 0x1080..0x1FFF (nao cruza a fronteira 0x2000 do rsp_mem_mask).
+# text_size = 0xF80 evita o wrap de branch targets (& 0x1FFF) que gerava
+# 'goto L_004C' sem label definida.
+#
+# extra_indirect_branch_targets: enderecos IMEM ABSOLUTOS da tabela de dispatch
+# de comandos no ucode_data (ROM 0x3FC60, D_8003F060_3FC60, 0x800 bytes -> DMEM 0):
+#   DMEM 0x10 (8 halfwords, blob 0x10..0x1F): usada pelo dispatch
+#   'lh v0,0x10(v0); jr v0' em IMEM 0x110C, index = (k0>>23) and 0xFE:
+#   0x1118 0x1470 0x11DC 0x1B38 0x1214 0x187C 0x1254 0x12D0
+# (A segunda tabela em DMEM 0x20 contem 0x1E24, fora do IMEM executado -> dados.)
+# Os demais jr (IMEM 0x1FA8/0x2134/0x23C0/0x256C do blob) estao na regiao
+# fantasma >= blob 0xF80, nunca executada (heranca L3DEX).
+text_offset = 0x2FF10
+text_size = 0x1018
+text_address = 0x04001080
+rom_file_path = "baserom.us.z64"
+output_file_path = "rsp/aspMain.cpp"
+output_function_name = "aspMain"
+extra_indirect_branch_targets = [
+    0x1118, 0x1470, 0x11DC, 0x1B38, 0x1214, 0x187C, 0x1254, 0x12D0,
+]

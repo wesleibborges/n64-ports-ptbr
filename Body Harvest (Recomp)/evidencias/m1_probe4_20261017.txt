@@ -1,0 +1,126 @@
+############ 0. GROUND TRUTH a partir dos logs existentes ############
+--- xc.log que falharam (threw an exception) ---
+10
+RSPProcessCS.hlsl.spv
+RasterPSDynamic.hlsl.spv
+RasterPSDynamicMS.hlsl.spv
+RasterPSSpecConstant.hlsl.spv
+RasterPSSpecConstantFlat.hlsl.spv
+RasterPSSpecConstantFlatMS.hlsl.spv
+RasterPSSpecConstantMS.hlsl.spv
+RasterVSDynamic.hlsl.spv
+RasterVSSpecConstant.hlsl.spv
+RasterVSSpecConstantFlat.hlsl.spv
+--- glslang.log que falharam (ERROR) ---
+5
+DebugPS.hlsl.spv
+FbReinterpretCS.hlsl.spv
+Im3DVS.hlsl.spv
+RSPSmoothNormalCS.hlsl.spv
+TextureDecodeCS.hlsl.spv
+
+############ 1. help completo do spirv-cross (opcoes relevantes) ############
+261 /root/bhrecomp/spirvcross_help.txt
+15:		Emit Vulkan GLSL instead of plain GLSL. Makes use of Vulkan-only features to match SPIR-V.
+57:	[--flatten-ubo]:
+58:		Emit UBOs as plain uniform arrays which are suitable for use with glUniform4*v().
+60:		E.g.: uniform MyUBO { vec4 a; float b, c, d, e; }; will be emitted as uniform vec4 MyUBO[2];
+61:		Caveat: You cannot mix and match floating-point and integer in the same UBO with this option.
+62:		Legacy GLSL/ESSL (where this flattening makes sense) does not support bit-casting, which would have been the obvious workaround.
+66:	[--remove-unused-variables]:
+68:	[--separate-shader-objects]:
+69:		Redeclare gl_PerVertex blocks to be suitable for desktop GL separate shader objects.
+70:	[--glsl-emit-push-constant-as-ubo]:
+71:		Instead of a plain uniform of struct for push constants, emit a UBO block instead.
+72:	[--glsl-emit-ubo-as-plain-uniforms]:
+73:		Instead of emitting UBOs, emit them as plain uniform structs.
+81:		Inherit binding information from the textures when building combined image samplers from separate textures and samplers.
+106:	[--glsl-force-flattened-io-blocks]:
+107:		Always flatten I/O blocks and structs.
+128:		Emit Indirect Argument buffers instead of plain bindings.
+161:		In argument buffers, mark an UBO as being an inline uniform block which is embedded into the argument buffer itself.
+170:		Rather than implementing array types as a templated value type ala std::array<T>, use plain, native arrays.
+232:		Always emit SSBOs as UAVs, even when marked as read-only.
+233:		Normally, SSBOs marked with NonWritable will be emitted as SRVs.
+236:		Using this option messes with the type system. SPIRV-Cross cannot guarantee that this will work.
+244:	[--hlsl-flatten-matrix-vertex-input-semantics]:
+258:	[--flatten-multidimensional-arrays]:
+259:		Do not support multi-dimensional arrays and flatten them to one dimension.
+
+############ 2. spirv-tools ############
+-rwxr-xr-x 1 root root  530888 Feb 16  2022 /usr/bin/spirv-dis
+-rwxr-xr-x 1 root root 1380104 Feb 16  2022 /usr/bin/spirv-val
+  libc-l10n
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 58 not upgraded.
+/usr/bin/spirv-dis
+spirv-dis OK
+
+############ 3. onde estao os .spv que falharam ############
+RSPProcessCS : /root/bhrecomp/build-aarch64/src/shaders/RSPProcessCS.hlsl.spv
+RasterVSSpecConstant : /root/bhrecomp/build-aarch64/src/shaders/RasterVSSpecConstant.hlsl.spv
+RasterPSDynamic : /root/bhrecomp/build-aarch64/src/shaders/RasterPSDynamic.hlsl.spv
+
+############ 4. reflection (--reflect) de RasterVSSpecConstant ############
+Didn't specify input file.
+(Debian package)
+Usage: spirv-cross <...>
+
+Basic:
+rc=0
+erro json: [Errno 2] No such file or directory: '/root/bhrecomp/rastervs.json'
+
+############ 5. disassembly do OpTypeStruct (se spirv-dis existir) ############
+228 /root/bhrecomp/rastervs.spvasm
+68:               OpMemberDecorate %RDPParams 0 Offset 0
+69:               OpMemberDecorate %RDPParams 1 Offset 16
+70:               OpMemberDecorate %RDPParams 2 Offset 24
+71:               OpMemberDecorate %RDPParams 3 Offset 32
+72:               OpMemberDecorate %RDPParams 4 Offset 48
+73:               OpMemberDecorate %RDPParams 5 Offset 64
+
+############ 6. flags alternativas no SPIRV-Cross (RasterVSSpecConstant) ############
+--- --version 320 --es --remove-unused-variables ---
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+rc=0
+--- --version 320 --es --flatten-ubo ---
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+rc=0
+--- --version 320 --es --flatten-ubo --remove-unused-variables ---
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+rc=0
+--- --version 320 --es --separate-shader-objects ---
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+rc=0
+--- --version 320 --es --glsl-emit-ubo-as-plain-uniforms ---
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+rc=0
+--- --version 320 --es --glsl-emit-ubo-as-plain-uniforms --remove-unused-variables ---
+SPIRV-Cross threw an exception: Buffer block cannot be expressed as any of std430, std140, scalar, even with enhanced layouts. You can try flattening this block to support a more flexible layout.
+rc=0
+
+############ 7. DXC vendorizado ############
+/root/bhrecomp/lib/rt64/src/contrib/dxc/bin/x64/dxc-linux: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, not stripped
+	linux-vdso.so.1 (0x000076f87ab49000)
+	libdxcompiler.so => not found
+	libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x000076f87ab1b000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x000076f87aa34000)
+	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x000076f87a800000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000076f87a7e0000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x000076f87a400000)
+	/lib64/ld-linux-x86-64.so.2 (0x000076f87ab4b000)
+libdxcompiler.so: 1.8(dev;4461-11e1318c); libdxil.so: 1.8
+13:  -all-resources-bound    Enables agressive flattening
+128:  -fspv-debug=<value>     Specify whitelist of debug info category (file -> source -> line, tool, vulkan-with-source)
+129:  -fspv-entrypoint-name=<value>
+131:  -fspv-extension=<value> Specify SPIR-V extension permitted to use
+132:  -fspv-flatten-resource-arrays
+133:                          Flatten arrays of resources so each array element takes one binding number
+134:  -fspv-preserve-bindings Preserves all bindings declared within the module, even when those bindings are unused
+135:  -fspv-preserve-interface
+137:  -fspv-print-all         Print the SPIR-V module before each pass and after the last one. Useful for debugging SPIR-V legalization and optimization passes.
+138:  -fspv-reduce-load-size  Replaces loads of composite objects to reduce memory pressure for the loads
+139:  -fspv-reflect           Emit additional SPIR-V instructions to aid reflection
+140:  -fspv-target-env=<value>
+142:  -fspv-use-legacy-buffer-matrix-order
+163:  -fvk-use-gl-layout      Use strict OpenGL std140/std430 memory layout for Vulkan resources
