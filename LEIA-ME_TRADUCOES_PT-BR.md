@@ -10,11 +10,10 @@ binários de N64 em código C nativo. Os ports desta pasta usam esse ecossistema
 | `zeldaocarina/` | **Ship of Harkinian (SoH)** | Shipwright (OoT decomp) | ROM **original** aceita → gera `oot.o2r` |
 | `zeldamajora/` | **2Ship2Harkinian (2S2H)** | 2Ship (MM decomp) | ROM **original** N64-US ou GC-US → gera `mm.o2r` |
 | `Banjo-Kazooie (BR)/lighthouse/` | **Lighthouse** | Torch (HarbourMasters) | ROM **original** aceita → gera `bk.o2r` |
-| `Body Harvest (Recomp)/` | **Body Harvest (Recomp)** | decomp jaytheham + N64Recomp | ROM **US** (`.z64`) → gera `bh.us.elf` |
 
 ## 2. Por que as ROMs PT-BR não funcionam diretamente nos ports
 
-Todos esses ports validam o **SHA-1 da ROM** contra uma lista de hashes oficiais no momento
+Os ports listados na tabela validam o **SHA-1 da ROM** contra uma lista de hashes oficiais no momento
 de gerar o arquivo `.o2r` (pacote de recursos extraídos da ROM). ROMs traduzidas/patcheadas
 têm hash diferente e são **rejeitadas**. Evidências medidas nestas ROMs (ver
 `evidencias/evidence_roms_identificacao.md` e `evidencias/evidence_adaptacao_ports_br.md`):
@@ -120,12 +119,8 @@ Observações:
   `panvk` funcional no ArkOS).
 
 
-### 4.4 Body Harvest — port em andamento (decomp→recomp)
-Desde 16/10/2026 existe um pipeline **decomp→recomp** iniciado para este jogo (ver §5).
-A ROM pode continuar em `/roms/n64` para emulação direta (dArkOS) enquanto o port não fica
-jogável. O backend **OpenGL ES** para o R36S está em
-`Body Harvest (Recomp)/docs/PLANO_BACKEND_GLES_R36S.md`, com evidências RAW M1–M5 em
-`Body Harvest (Recomp)/evidencias/`.
+### 4.4 Body Harvest (projeto movido)
+O port tem um repositório dedicado: [wesleibborges/body-harvest-port](https://github.com/wesleibborges/body-harvest-port). A pasta `Body Harvest (Recomp)/` foi removida desta base. Consulte o repositório dedicado para o código e o status atuais. A rota atual para o R36S é HLE/RSP na CPU e OpenGL ES 2.0; RT64/Vulkan e GLES 3.x são históricos, não a rota de destino.
 
 ## 5. Novos projetos criados (16/10/2026)
 
@@ -139,15 +134,6 @@ jogável. O backend **OpenGL ES** para o R36S está em
   usada pelo Lighthouse **não** é aceita.
 - ⚠️ **Compatibilidade**: RT64 renderiza só via Vulkan — o Mali-G31 do R36S depende do
   driver panvk (experimental no ArkOS). Ver `README.md` do port.
-
-### `Body Harvest (Recomp)/` — pipeline decomp→recomp iniciado ⚙️
-- Decomp do jaytheham (84,53% matched / 99,97% decompilado) **compilado com a ROM do
-  usuário → `build/bh.us.z64: OK` (byte-perfect)** e `bh.us.elf` com 6.933 símbolos.
-- **N64Recomp executado: 7.117 funções recompiladas** (patch próprio
-  `use_lookup_for_all_function_calls` adicionado ao N64Recomp para resolver jal entre overlays).
-- Artefatos em `recomp/`; roadmap do runtime em `README_PORT.md`; evidência RAW em `evidencias/`.
-- Para ficar jogável falta: runtime (vídeo/áudio/input no modelo Starship/N64ModernRuntime),
-  RSPRecomp e eventos de overlay — trabalho de engenharia documentado no README do projeto.
 
 ## 6. Referências oficiais
 - N64Recomp: <https://github.com/N64Recomp/N64Recomp>
